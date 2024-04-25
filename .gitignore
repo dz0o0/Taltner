@@ -1,31 +1,3 @@
 # dependencies
 */.DS_Store
 */desktop.ini
-
-# Node.js
-
-# TODO:  Node.jsの.gitignoreを書く
-
-
-# Python
-
-# python cache
-*.pyc
-*/__pycache__/
-*/.ipynb_checkpoints/
-
-# python env
-*/.venv/
-
-# mypy cache
-*/.mypy_cache/
-
-# Ruff cache
-*/.ruff_cache/
-
-# environment variables
-*/.env
-
-# log files
-*/*.log
-
