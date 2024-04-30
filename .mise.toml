@@ -1,0 +1,67 @@
+[tools]
+python = {version="3.10.14", virtualenv="server/.venv"}
+node = "21.7.3"
+
+[settings]
+# mise runを使うための設定
+experimental = true
+
+
+# miseで実行するタスクの設定
+
+# セットアップ
+
+# 開発環境構築 (フロント・バックエンド共通)
+[tasks.setup]
+description = "Setup the common development environment"
+run = "mise i"
+
+# サーバー開発環境構築
+[tasks.setup-server-dev]
+description = "Setup the sever development environment"
+run = """
+pip install poetry=='1.8.2' \
+&& poetry install \
+&& pre-commit install
+"""
+
+# フロント開発環境構築
+[tasks.setup-client-dev]
+description = "Setup the client development environment"
+run = ""
+
+
+# フロントエンド用コマンド
+
+
+
+
+# バックエンド用コマンド
+
+# Poetryからrequirements.txtの生成
+[tasks.poe-req]
+description = "Generate requirements.txt from poetry"
+run = """
+poetry export --without-hashes -o requirements.txt \
+&& poetry export --without-hashes --with dev -o requirements-dev.txt
+"""
+
+# Ruff/フォーマット
+[tasks.rufo]
+description = "Format the Python file for Ruff"
+run = "ruff format --force-exclude --config ruff.toml"
+
+# Ruff/リンター
+[tasks.rul]
+description = "Lint the Python file for Ruff"
+run = "ruff check --force-exclude --config ruff.toml"
+
+# Ruff/リンター/修正
+[tasks.rul-fix]
+description = "Lint the Python file for Ruff"
+run = "ruff check --fix --force-exclude --config ruff.toml"
+
+# mypy
+[tasks.mypy]
+description = "Check the Python file for mypy"
+run = "mypy --strict --ignore-missing-imports ."
