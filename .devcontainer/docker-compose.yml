@@ -1,0 +1,15 @@
+services:
+  devcontainer:
+    platform: linux/amd64
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile.dev
+    volumes:
+      - ../:/workspace:cached
+    user: vscode
+    working_dir: /workspace
+    restart: always
+    tty: true
+
+volumes:
+  Taltner-DevContainer-Workspace:

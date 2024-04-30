@@ -1,0 +1,26 @@
+{
+    "name": "Taltner",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "devcontainer",
+    "workspaceFolder": "/workspace",
+    "remoteUser": "vscode",
+    "customizations": {
+        "vscode": {
+            // Add the IDs of extensions you want installed when the container is created.
+            "extensions": [
+                "GitHub.vscode-pull-request-github",
+                "ms-python.python",
+                "GitHub.copilot",
+                "GitHub.copilot-chat",
+                "oderwat.indent-rainbow",
+                "ms-toolsai.jupyter",
+                "charliermarsh.ruff",
+                "shardulm94.trailing-spaces",
+                "mosapride.zenkaku",
+                "streetsidesoftware.code-spell-checker",
+                "ms-python.vscode-pylance",
+                "ms-azuretools.vscode-docker"
+            ]
+        }
+    }
+}
