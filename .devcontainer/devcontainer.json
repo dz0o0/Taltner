@@ -1,24 +1,27 @@
 {
+    // See https://aka.ms/vscode-remote/devcontainer.json for format details.
     "name": "Taltner",
-    "dockerComposeFile": "docker-compose.yml",
-    "service": "devcontainer",
-    "workspaceFolder": "/workspace",
-    "remoteUser": "vscode",
+    "dockerComposeFile": "docker-compose.yml",  // 構築するコンテナの設定ファイル
+    "service": "devcontainer",  // コンテナのサービス名(docker-compose.ymlで定義したサービス名)
+    "workspaceFolder": "/workspace",  // コンテナ内の作業ディレクトリの絶対パス
+    "remoteUser": "vscode",  // コンテナ内のユーザー名
+    // VSCodeの設定
     "customizations": {
         "vscode": {
-            // Add the IDs of extensions you want installed when the container is created.
+            // リモートコンテナ内でインストールする拡張機能。
+            // Github Copilot群はなぜかインストールできないので、コンテナ内で手動でインストールする必要があります。
             "extensions": [
                 "GitHub.vscode-pull-request-github",
-                "ms-python.python",
                 "GitHub.copilot",
                 "GitHub.copilot-chat",
-                "oderwat.indent-rainbow",
-                "ms-toolsai.jupyter",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
                 "charliermarsh.ruff",
+                "ms-toolsai.jupyter",
+                "oderwat.indent-rainbow",
                 "shardulm94.trailing-spaces",
                 "mosapride.zenkaku",
                 "streetsidesoftware.code-spell-checker",
-                "ms-python.vscode-pylance",
                 "ms-azuretools.vscode-docker"
             ]
         }
