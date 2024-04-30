@@ -1,5 +1,7 @@
-# FrontEnd
-client/* @nka21
+# All owners except `client`
+* @KorRyu3
+# ignore directory
+client/
 
-# BackEnd
-server/* @KorRyu3
+# FrontEnd
+client/ @nka21
