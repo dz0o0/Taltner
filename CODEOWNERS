@@ -1,5 +1,7 @@
-# FrontEnd
-web/* @nka21
+# `client/`以外の全てを@KorRyu3が担当
+* @KorRyu3
+# ignore directory
+client/
 
-# BackEnd
-server/* @KorRyu3
+# FrontEnd
+client/ @nka21
