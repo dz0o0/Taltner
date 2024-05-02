@@ -10,6 +10,30 @@
 ## 機能の追加やバグの修正
 新しい機能の提案やバグの報告は、Issuesを通じて行います。新しいIssueは、[Issue Form](工事中)から作成してください。
 
+## ブランチ戦略について
+このプロジェクトでは、以下のブランチ戦略を採用しています。
+
+### ブランチの種類
+- `main`: デフォルトブランチ。本番環境にデプロイされるコードがマージされます。
+- `<機能名>`: 新機能の追加やバグの修正など、機能単位での作業を行うブランチ。基本的に開発はこのブランチで行います。
+
+今回は、`feat/`などは使用せず、`<機能名>`の形式でブランチを作成します。<br>
+また、ブランチ名は、`kebab-case`で記述してください。
+
+## Pull Requestの作成
+新しい機能の追加やバグの修正を行う場合、Pull Request(PR)を作成してください。<br>
+PRを作成する際は、以下の手順に従ってください。
+
+### PRの作成手順
+1. ブランチを作成し、作業を行います。
+2. 作業が完了したら、`main`ブランチに対してPRを作成します。
+3. PRのタイトルと本文には、作業内容や変更点、関連するIssue番号を明確に記述してください。PRのテンプレートはそのうち追加します。
+4. レビュワーを指定し、レビューを依頼します。`client/`には @nka21 が、それ以外には @KorRyu3 が自動的にレビュワーに設定されます。
+
+### PRのマージについて
+PRのAuto merge設定は切ってあります。<br>
+mainへのマージは、最後に承認したレビュワーが責任を持って行ってください。
+
 ## コミットの書き方
 コミットメッセージは、[Conventional Commits](https://www.conventionalcommits.org/ja/v1.0.0/)の規約に従います。形式は以下の通りです：
 ```md
@@ -43,9 +67,15 @@ feat(login): ユーザーログイン機能を追加
 BREAKING CHANGE: 新しい認証フローを導入したため、古い認証メソッドは削除されます。
 ```
 
+※ コミットを行う際は、commitlintによって形式が自動チェックされます。<br>
+フォーマットに従っていないと拒否されるので、注意してください。
+
+<!-- 開発環境について -->
+
 ## 開発環境
 このプロジェクトでは、`Python 3.10.14`と`Node.js 21.7.3`を使用しています。<br>
-また、ランタイムのバージョン管理には`mise`, 言語のパッケージ管理には`Poetry`と`npm`を使用しています。
+また、ランタイムのバージョン管理には`mise`, 言語のパッケージ管理には`Poetry`と`npm`を使用しています。<br>
+詳細なバージョン情報は、各ディレクトリの`pyproject.toml`や`package.json`を参照してください。
 
 開発環境はすべてDockerで構築されています。開発には、Docker上で作業してください。
 
@@ -53,18 +83,59 @@ BREAKING CHANGE: 新しい認証フローを導入したため、古い認証メ
 
 
 ### 開発環境の構築
-工事中
+※ VSCode(Cursor)の`Dev Containers`を使用する前提での説明です。<br>
+他のエディタを使用する場合は、各自で環境構築を行ってください
+
+1. このリポジトリをクローンします。
+2. VSCodeでクローンしたリポジトリを開きます。
+3. 左下の`><`アイコンをクリックし、`Reopen in Container`(コンテナで再度開く)を選択します。
+4. コンテナが起動したら、`mise`コマンドを使用してセットアップをします。
+```bash
+# プロジェクト全体のセットアップ
+# /workspaceにいることを確認してください
+mise run setup
+
+# client/のセットアップ
+cd /workspace/client && mise run setup-client-dev
+
+# server/のセットアップ
+cd /workspace/server && mise run setup-server-dev
+```
+5. Gitに接続するために、`git config`を設定します。
+```bash
+# ユーザー名とメールアドレスを設定
+# ローカルの設定を引っ張ってくると楽です
+git config --global user.name "Your Name"
+git config --global user.email "Your Email"
+
+# commitを行う際のエディタを設定(optional)
+# VSCodeを使用する場合
+git config --global core.editor "code --wait"
+```
+
+Dev Containersから抜ける場合は、左下の`><`アイコンをクリックし、リモート接続を切断します。
+
+#### Docker内のGitでのssh接続について
+Docker内での`git push`や`pull`の際に、ssh接続を使用する場合は、「[Visual Studio CodeのRemote ContainersからもGitを使う方法 - おかしんワークス](https://okash1n.works/posts/how-to-use-git-inside-vscode-dev-container/)」を参考に設定してください。<br>
+Docker外でのssh接続に比べてやや複雑ですが、毎回パスワードを入力する手間が省けるため、おすすめです。
+
+#### おまけ
+今回、Docker内のTerminalのPromptを見やすくするためにStarshipを導入しているので、自分好みな設定に変更したい場合、`~/.config/starship.toml`を編集してください。Fontを変えたりしてもいいかもしれません。
+
+<!-- README -->
 
 ## READMEについて
 トップレベルのREADME.mdは、プロジェクトの概要や使い方を記述しています。
 
-また、`client/`, `server/`などのサブディレクトリにはそのディレクトリ内のファイル構成や使い方に関するREADME.mdを配置します。
+また、`client/`, `server/`などのサブディレクトリにはそのディレクトリ内のファイル構成や使い方に関するREADME.mdを配置します。(仮)
+
+<!-- miseのタスク -->
 
 ## miseのタスク設定
 miseでは、`mise run <task name>`で実行できるタスク(コマンド)を設定できます。<br>
 コマンドを短縮したり、複数のコマンドをまとめたりすることができます。
 
-現在設定しているタスクは、全て`/.mise.toml`に記述されています。<br>
+現在設定しているタスクは、全て`.mise.toml`に記述されています。<br>
 タスクの追加は大歓迎ですが、既存のタスクの変更を行う場合は、事前に`Issue`を立ててください。
 
 ### 記述方法:
