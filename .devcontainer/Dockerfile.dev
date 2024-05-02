@@ -42,5 +42,6 @@ WORKDIR /workspace
 COPY . .
 
 # Allow /workspace for git
-RUN git config --global --add safe.directory /workspace
+RUN git config --global --add safe.directory /workspace \
+    && git config --global fetch.prune true
 
