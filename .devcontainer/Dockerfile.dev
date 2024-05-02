@@ -22,18 +22,25 @@ ENV LANG=ja_JP.UTF-8 \
     TZ=JST-9
 
 USER $USER_NAME
-
 # Install mise
 RUN curl https://mise.run | sh \
     && echo 'export PATH=~/.local/bin:$PATH' >> ~/.bashrc \
     && echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc \
-    && . ~/.bashrc
+    # Install Starship
+    && curl -sS https://starship.rs/install.sh | sh -s -- -y \
+    && echo 'eval "$(starship init bash)"' >> ~/.bashrc \
+    # Use No Nerd Font
+    && mkdir -p ~/.config && touch ~/.config/starship.toml \
+    && starship preset no-nerd-font -o ~/.config/starship.toml \
+    # Set the prompt
+    && echo "[directory]\ntruncation_length=100" >> ~/.config/starship.toml \
+    && echo "[git_branch]\nsymbol = '🌱 '" >> ~/.config/starship.toml
 
 WORKDIR /workspace
 
 # Copy the project files
 COPY . .
 
-# RUN mise  settings set experimental true \
-#     # 全体のセットアップ
-#     mise run setup \
+# Allow /workspace for git
+RUN git config --global --add safe.directory /workspace
+
