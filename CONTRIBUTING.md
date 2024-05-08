@@ -87,7 +87,7 @@ BREAKING CHANGE: 新しい認証フローを導入したため、古い認証メ
 2. VSCodeでクローンしたリポジトリを開きます。
 3. 左下の`><`アイコンをクリックし、`Reopen in Container`(コンテナで再度開く)を選択します。
 
-<img src="./assets/contributing/step1_open_remote_container.png" width="50%" alt="VSCodeからコンテナを開く"/>
+<img src=".github/assets/contributing/step1_open_remote_container.png" width="50%" alt="VSCodeからコンテナを開く"/>
 
 4. コンテナが起動したら、新規ターミナルを開き、`mise`コマンドを使用してセットアップをします。
 ```bash
