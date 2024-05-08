@@ -97,7 +97,18 @@ BREAKING CHANGE: 新しい認証フローを導入したため、古い認証メ
 ### 開発環境の構築
 
 1. このリポジトリをクローンします。
-2. VSCode でクローンしたリポジトリを開きます。
+
+```git
+# 接続をhttpsでやる人向け
+git clone https://github.com/dz0o0/Taltner.git
+
+# 接続をsshでやる人向け
+git clone git@github.com:dz0o0/Taltner.git
+
+cd Taltner
+```
+
+2. VSCode でクローンしたリポジトリ(ディレクトリ)を開きます。
 3. 左下の`><`アイコンをクリックし、`Reopen in Container`(コンテナで再度開く)を選択します。
 
 <img src=".github/assets/contributing/step1_open_remote_container.png" width="50%" alt="VSCodeからコンテナを開く"/>
