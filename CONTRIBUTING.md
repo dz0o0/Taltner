@@ -113,7 +113,7 @@ cd Taltner
 
 <img src=".github/assets/contributing/step1_open_remote_container.png" width="50%" alt="VSCodeからコンテナを開く"/>
 
-1. コンテナが起動したら、新規ターミナルを開き、`mise`コマンドを使用してセットアップをします。
+4. コンテナが起動したら、新規ターミナルを開き、`mise`コマンドを使用してセットアップをします。
 
 ```bash
 # プロジェクト全体のセットアップ
