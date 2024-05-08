@@ -22,7 +22,7 @@ description = "Setup the sever development environment"
 run = """
 pip install poetry=='1.8.2' \
 && poetry install \
-&& pre-commit install
+&& poetry run pre-commit install
 """
 
 # フロント開発環境構築
@@ -50,19 +50,19 @@ poetry export --without-hashes -o requirements.txt \
 # Ruff/フォーマット
 [tasks.ruff-fmt]
 description = "Format the Python file for Ruff"
-run = "ruff format --force-exclude --config ruff.toml"
+run = "poetry run ruff format --force-exclude --config ruff.toml"
 
 # Ruff/リンター
 [tasks.ruff]
 description = "Lint the Python file for Ruff"
-run = "ruff check --force-exclude --config ruff.toml"
+run = "poetry run ruff check --force-exclude --config ruff.toml"
 
 # Ruff/リンター/修正
 [tasks.ruff-fix]
 description = "Lint the Python file for Ruff"
-run = "ruff check --fix --force-exclude --config ruff.toml"
+run = "poetry run ruff check --fix --force-exclude --config ruff.toml"
 
 # mypy
 [tasks.mypy]
 description = "Check the Python file for mypy"
-run = "mypy --strict --ignore-missing-imports ."
+run = "poetry run mypy --strict --ignore-missing-imports ."
