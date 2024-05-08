@@ -37,9 +37,10 @@ run = ""
 
 
 # バックエンド用コマンド
+# コマンドは、server/ディレクトリで行うこと。
 
 # Poetryからrequirements.txtの生成
-[tasks.poe-req]
+[tasks.poetry-req]
 description = "Generate requirements.txt from poetry"
 run = """
 poetry export --without-hashes -o requirements.txt \
@@ -47,17 +48,17 @@ poetry export --without-hashes -o requirements.txt \
 """
 
 # Ruff/フォーマット
-[tasks.rufo]
+[tasks.ruff-fmt]
 description = "Format the Python file for Ruff"
 run = "ruff format --force-exclude --config ruff.toml"
 
 # Ruff/リンター
-[tasks.rul]
+[tasks.ruff]
 description = "Lint the Python file for Ruff"
 run = "ruff check --force-exclude --config ruff.toml"
 
 # Ruff/リンター/修正
-[tasks.rul-fix]
+[tasks.ruff-fix]
 description = "Lint the Python file for Ruff"
 run = "ruff check --fix --force-exclude --config ruff.toml"
 
