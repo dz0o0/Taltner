@@ -86,7 +86,10 @@ BREAKING CHANGE: 新しい認証フローを導入したため、古い認証メ
 1. このリポジトリをクローンします。
 2. VSCodeでクローンしたリポジトリを開きます。
 3. 左下の`><`アイコンをクリックし、`Reopen in Container`(コンテナで再度開く)を選択します。
-4. コンテナが起動したら、`mise`コマンドを使用してセットアップをします。
+
+<img src="./assets/contributing/step1_open_remote_container.png" width="50%" alt="VSCodeからコンテナを開く"/>
+
+4. コンテナが起動したら、新規ターミナルを開き、`mise`コマンドを使用してセットアップをします。
 ```bash
 # プロジェクト全体のセットアップ
 # /workspaceにいることを確認してください
@@ -98,6 +101,9 @@ cd /workspace/client && mise run setup-client-dev
 # server/のセットアップ
 cd /workspace/server && mise run setup-server-dev
 ```
+
+<img src="./assets/contributing/step2_run_command_in_container.png" width="50%" alt="コンテナ内でコマンド実行"/>
+
 5. Gitに接続するために、`git config`を設定します。
 ```bash
 # ユーザー名とメールアドレスを設定
@@ -110,7 +116,13 @@ git config --global user.email "Your Email"
 git config --global core.editor "code --wait"
 ```
 
+#### 環境から抜ける
 Dev Containersから抜ける場合は、左下の`><`アイコンをクリックし、リモート接続を切断します。
+
+また、ローカルのターミナルで、`docker container stop <コンテナ名>`でコンテナを止めてください。<br>
+コンテナ名は、`docker ps`で、現在アクティベートされているコンテナ一覧が見れます。
+
+<img src="./assets/contributing/step3_exit_container.png" width="50%" alt="リモートコンテナから切断する"/>
 
 #### Docker内のGitでのssh接続について
 Docker内での`git push`や`pull`の際に、ssh接続を使用する場合は、「[Visual Studio CodeのRemote ContainersからもGitを使う方法 - おかしんワークス](https://okash1n.works/posts/how-to-use-git-inside-vscode-dev-container/)」を参考に設定してください。<br>
