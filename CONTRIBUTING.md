@@ -102,7 +102,7 @@ cd /workspace/client && mise run setup-client-dev
 cd /workspace/server && mise run setup-server-dev
 ```
 
-<img src="./assets/contributing/step2_run_command_in_container.png" width="50%" alt="コンテナ内でコマンド実行"/>
+<img src=".github/assets/contributing/step2_run_command_in_container.png" width="50%" alt="コンテナ内でコマンド実行"/>
 
 5. Gitに接続するために、`git config`を設定します。
 ```bash
