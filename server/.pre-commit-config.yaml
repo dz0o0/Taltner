@@ -1,0 +1,43 @@
+default_language_version:
+  python: python3.10
+
+repos:
+  # mypy
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    # tag of mypy to use
+    rev: v1.9.0
+    hooks:
+      - id: mypy
+        args: [--strict, --ignore-missing-imports]
+
+  # Ruff
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.4.1
+    hooks:
+      # Run the linter.
+      - id: ruff
+        entry: ruff check --config "./server/ruff.toml" --force-exclude
+        types_or: [ python, pyi, jupyter ]
+        # require_serial: true
+
+      # Run the formatter.
+      - id: ruff-format
+        entry: ruff format --config "./server/ruff.toml" --force-exclude
+        types_or: [ python, pyi, jupyter ]
+
+  # Poetry
+  - repo: https://github.com/python-poetry/poetry
+    rev: '1.8.2'  # add version here
+    hooks:
+      - id: poetry-check
+        entry: poetry check -C "./server/"
+
+  # commitlint
+  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+    rev: v9.16.0
+    hooks:
+        - id: commitlint
+          stages: [commit-msg]
+          additional_dependencies: ['@commitlint/config-conventional']
+          args: [--config="./commitlint.config.js"]
