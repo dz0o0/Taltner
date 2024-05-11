@@ -1,0 +1,47 @@
+FROM ubuntu:24.04
+
+ARG USER_NAME="vscode" \
+    USER_UID=2000 \
+    USER_GID=2000
+
+# Install dependencies
+RUN apt-get update \
+    && apt-get install -y sudo curl git vim wget locales \
+    && groupadd --gid $USER_GID $USER_NAME \
+    && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USER_NAME \
+    && echo $USER_NAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USER_NAME \
+    && chmod 0440 /etc/sudoers.d/$USER_NAME \
+    && localedef -f UTF-8 -i ja_JP ja_JP.UTF-8 \
+    && apt-get clean
+
+
+# Set the locale
+ENV LANG=ja_JP.UTF-8 \
+    LANGUAGE=ja_JP:ja \
+    LC_ALL=ja_JP.UTF-8 \
+    TZ=JST-9
+
+USER $USER_NAME
+# Install mise
+RUN curl https://mise.run | sh \
+    && echo 'export PATH=~/.local/bin:$PATH' >> ~/.bashrc \
+    && echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc \
+    # Install Starship
+    && curl -sS https://starship.rs/install.sh | sh -s -- -y \
+    && echo 'eval "$(starship init bash)"' >> ~/.bashrc \
+    # Use No Nerd Font
+    && mkdir -p ~/.config && touch ~/.config/starship.toml \
+    && starship preset no-nerd-font -o ~/.config/starship.toml \
+    # Set the prompt
+    && echo "[directory]\ntruncation_length=100" >> ~/.config/starship.toml \
+    && echo "[git_branch]\nsymbol = '🌱 '" >> ~/.config/starship.toml
+
+WORKDIR /workspace
+
+# Copy the project files
+COPY . .
+
+# Allow /workspace for git
+RUN git config --global --add safe.directory /workspace \
+    && git config --global fetch.prune true
+

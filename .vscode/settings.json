@@ -1,0 +1,19 @@
+{
+    "files.insertFinalNewline": true,
+    "files.autoSave": "afterDelay",
+    // Ruff formatter
+    "ruff.importStrategy": "fromEnvironment",  // pythonインタプリタのruffを使用する
+    "ruff.lint.args": [
+        "--config=server/ruff.toml",  // ローカルのruff設定ファイルを使用
+        "--ignore=E201,E202,E225,E226,E501" // Ruffのlint時に無視するエラー
+    ],
+    "[python]": {
+        "editor.insertSpaces": true, // インデントにスペースを使用
+        "editor.tabSize": 4, // インデントのスペース数
+        "editor.defaultFormatter": "charliermarsh.ruff", // FormatterにRuffを使用
+        "editor.formatOnSave": true, // コード保存時にフォーマットを実行
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit" // コード保存時にimport行を整理
+        },
+    },
+}
