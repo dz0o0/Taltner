@@ -1,0 +1,7 @@
+[virtualenvs]
+# 仮想環境をプロジェクトディレクトリ内に作成する
+in-project = true
+
+[warnings]
+# poetry exportで出る警告を無視
+export = false
