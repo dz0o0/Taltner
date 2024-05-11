@@ -4,7 +4,23 @@ module.exports = {
      * documentation: https://commitlint.js.org/reference/configuration.html
      */
     extends: ['@commitlint/config-conventional'],
+    
     rules: {
+        "subject-case": [
+            2,
+            "always",
+            [
+                'lower-case',    // lower case
+                'upper-case',    // UPPERCASE
+                'camel-case',    // camelCase
+                'kebab-case',    // kebab-case
+                'pascal-case',   // PascalCase
+                'sentence-case', // Sentence case
+                'snake-case',    // snake_case
+                'start-case'     // Start Case
+            ]
+        ],
+        // typeのenumを強制
         'type-enum': [
             2,  // この数字何？
             'always',
@@ -19,6 +35,14 @@ module.exports = {
                 "ci",
                 "refactor",
                 "chore"
+            ]
+        ],
+        "type-case": [
+            2,
+            "always",
+            [
+                "lower-case",
+                "pascal-case"
             ]
         ],
     },
