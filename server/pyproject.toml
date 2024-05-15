@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "taltner-server"
+version = "0.1.0"
+description = "Taltnerのサーバーサイド"
+authors = ["KorRyu3 <146335193+KorRyu3@users.noreply.github.com>"]
+readme = "README.md"
+# Poetryを依存関係のみに使うため、パッケージモードを無効にする
+package-mode = false
+
+# アプリケーションに直接関わってくるパッケージ
+[tool.poetry.dependencies]
+python = "3.10.14"
+
+# 開発時のみに必要なパッケージ
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.3"
+mypy = "^1.10.0"
+pre-commit = "^3.7.0"
+poetry = "^1.8.2"
+poetry-plugin-export = "^1.7.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+requires-python = "3.10.14"
