@@ -18,13 +18,11 @@ repos:
       # Run the linter.
       - id: ruff
         entry: ruff check --config "./server/ruff.toml" --force-exclude
-        types_or: [ python, pyi, jupyter ]
         # require_serial: true
 
       # Run the formatter.
       - id: ruff-format
         entry: ruff format --config "./server/ruff.toml" --force-exclude
-        types_or: [ python, pyi, jupyter ]
 
   # Poetry
   - repo: https://github.com/python-poetry/poetry
