@@ -1,1 +1,4 @@
-
+numpy==1.26.4 ; python_full_version == "3.10.14"
+openvino-telemetry==2024.1.0 ; python_full_version == "3.10.14"
+openvino==2024.1.0 ; python_full_version == "3.10.14"
+packaging==24.0 ; python_full_version == "3.10.14"
