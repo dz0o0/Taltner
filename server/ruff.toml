@@ -1,5 +1,5 @@
-# 一行88文字まで
-line-length = 88
+# 一行120文字まで
+line-length = 120
 # インデントは4スペース
 indent-width = 4
 
