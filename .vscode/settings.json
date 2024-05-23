@@ -25,5 +25,8 @@
         "editor.codeActionsOnSave": [
                 "source.addMissingImports",
             "source.fixAll.eslint"
-        ]
+    ],
+        "editor.quickSuggestions": {
+     "strings": "on"
+   }
 }

@@ -1,6 +1,6 @@
 {
-    "plugins": ["sort-keys-custom-order", "simple-import-sort", "import","unused-imports"],
-  "extends": ["next/core-web-vitals","prettier"]
+    "plugins": ["sort-keys-custom-order", "simple-import-sort", "import","unused-imports","tailwindcss"],
+    "extends": ["next/core-web-vitals","prettier","plugin:tailwindcss/recommended"],
     "rules": {
       // For JS objects sorting
       "sort-keys-custom-order/object-keys": [
@@ -18,5 +18,11 @@
           "import/newline-after-import": "error",
           "import/no-duplicates": "error",
             "unused-imports/no-unused-imports": "error"
-  }
+    },
+    "settings": {
+     "tailwindcss": {
+       "groupByResponsive": true,
+       "whitelist": []
+     }
+   }
 }
