@@ -16,4 +16,7 @@
             "source.organizeImports": "explicit" // コード保存時にimport行を整理
         },
     },
+    // フロントエンドで使用するもの
+    //参考：https://zenn.dev/rh820/articles/1e62510776221e#next.js%E3%81%AE%E3%83%97%E3%83%AD%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%81%AE%E4%BD%9C%E6%88%90
+    "typescript.preferences.importModuleSpecifier": "non-relative",
 }
