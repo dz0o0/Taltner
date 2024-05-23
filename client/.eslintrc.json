@@ -1,5 +1,5 @@
 {
-    "plugins": ["sort-keys-custom-order", "simple-import-sort"],
+    "plugins": ["sort-keys-custom-order", "simple-import-sort", "import"],
   "extends": ["next/core-web-vitals","prettier"]
     "rules": {
       // For JS objects sorting
@@ -13,6 +13,9 @@
         { "orderedKeys": ["id", "name", "title"] }
       ],
         "simple-import-sort/imports": "error",
-        "simple-import-sort/exports": "error"
+        "simple-import-sort/exports": "error",
+          "import/first": "error",
+          "import/newline-after-import": "error",
+          "import/no-duplicates": "error"
   }
 }
