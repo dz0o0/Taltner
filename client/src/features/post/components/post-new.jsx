@@ -20,70 +20,67 @@
 import MicRecorder from "mic-recorder-to-mp3";
 import React, { useState } from "react";
 
-// "AudioRecorder"という関数を定義
 const AudioRecorder = () => {
-  //"recorder"という状態変数を作成
-  //MicRecorderの新しいインスタンスを保持
-  //ビットレートを128に設定してインスタンスを作成
   const [recorder] = useState(new MicRecorder({ bitRate: 128 }));
-  //"isRecording"という、現在録音が進行中かどうかを示す状態変数を作成
-  //初期状態はfalse、録音開始→trueに、録音停止→falseになるよう設定
   const [isRecording, setIsRecording] = useState(false);
-  //"blobURL"という、文字列で、録音された音声データのURLを保持状態変数を作成
-  //録音が停止されると、この状態は録音データのURLに更新される
   const [blobURL, setBlobURL] = useState("");
-  //"isBlocked"という、マイクへのアクセスがブロックされているかどうかを示す状態変数を作成
-  //初期状態はfalseで、マイクへのアクセスがユーザーによって拒否→trueに設定。
   const [isBlocked, setIsBlocked] = useState(false);
+  const [stream, setStream] = useState(null); // マイクストリームの状態変数
 
   const startRecording = () => {
-    navigator.getUserMedia(
-      { audio: true },
-      () => {
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
         console.log("Permission Granted");
         setIsBlocked(false);
+        setStream(stream); // ストリームを状態に保存
         recorder
           .start()
           .then(() => {
             setIsRecording(true);
           })
           .catch((e) => console.error(e));
-      },
-      () => {
+      })
+      .catch((err) => {
         console.log("Permission Denied");
         setIsBlocked(true);
-      }
-    );
+        alert("マイクのアクセスが拒否されました。設定を確認してください。");
+      });
   };
 
-  const stopRecording = () => {
-    recorder
-      .stop()
-      .getMp3()
-      .then(([buffer, blob]) => {
-        const blobURL = URL.createObjectURL(blob);
-        setBlobURL(blobURL);
-        setIsRecording(false);
+  const stopRecording = async () => {
+    console.log("Stopping recording...");
+    try {
+      const [buffer, blob] = await recorder.stop().getMp3();
+      const blobURL = URL.createObjectURL(blob);
+      setBlobURL(blobURL);
+      setIsRecording(false);
+      console.log("Recording stopped.");
 
-        // 音声データをAPIに送信するロジックをここに追加
-        sendAudioData(blob);
-      })
-      .catch((e) => console.log(e));
+      // ストリームを停止
+      if (stream) {
+        stream.getTracks().forEach((track) => track.stop());
+        setStream(null); // ストリームをクリア
+      }
+
+      sendAudioData(blob);
+    } catch (e) {
+      console.error("Error stopping recording:", e);
+    }
   };
 
   const sendAudioData = (blob) => {
     const formData = new FormData();
     formData.append("file", blob, "recording.mp3");
 
-    fetch("YOUR_API_ENDPOINT", {
+    fetch("http://localhost:3001", {
       body: formData,
       method: "POST",
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data); // APIからのレスポンスをログに出力
+        console.log(data);
         if (data.success) {
-          // APIが成功のレスポンスを返す場合
           alert("音声データが正しくAPIに送信されました");
         } else {
           alert("音声データの送信に失敗しました");
@@ -97,7 +94,6 @@ const AudioRecorder = () => {
       <button onClick={isRecording ? stopRecording : startRecording}>
         {isRecording ? "停止" : "録音開始"}
       </button>
-      {/* <audio src={blobURL} controls="controls" /> */}
     </div>
   );
 };
