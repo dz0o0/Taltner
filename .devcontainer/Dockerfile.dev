@@ -70,6 +70,10 @@ WORKDIR /workspace
 COPY . .
 
 # Allow /workspace for git
-RUN git config --global --add safe.directory /workspace \
+RUN \
+    # miseのセットアップ
+    ~/.local/bin/mise i \
+    # Allow /workspace for git
+    && git config --global --add safe.directory /workspace \
     && git config --global fetch.prune true
 
