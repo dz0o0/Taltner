@@ -1,8 +1,6 @@
 {
-  "id": 1,
-  "username": "johndoe",
-  "email": "johndoe@example.com",
-  "fullName": "John Doe",
-  "createdAt": "2023-01-01T12:00:00Z",
-  "updatedAt": "2023-01-02T12:00:00Z"
+  "audio": [
+    { "id": "1", "success": true, "views": 100 },
+    { "id": "2", "title": "another title", "views": 200 }
+  ]
 }

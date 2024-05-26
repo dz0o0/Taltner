@@ -73,7 +73,7 @@ const AudioRecorder = () => {
     const formData = new FormData();
     formData.append("file", blob, "recording.mp3");
 
-    fetch("http://localhost:3001", {
+    fetch("http://localhost:3001/audio/1", {
       body: formData,
       method: "POST",
     })
@@ -81,9 +81,9 @@ const AudioRecorder = () => {
       .then((data) => {
         console.log(data);
         if (data.success) {
-          alert("音声データが正しくAPIに送信されました");
+          console.log("音声データが正しくAPIに送信されました");
         } else {
-          alert("音声データの送信に失敗しました");
+          console.log("音声データの送信に失敗しました");
         }
       })
       .catch((error) => console.error("Error:", error));
