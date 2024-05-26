@@ -5,16 +5,28 @@ ARG USER_NAME="vscode" \
     USER_GID=2000
 
 # Install dependencies
-RUN apt-get update \
-    && apt-get install -y sudo curl git vim wget locales \
-    # Linuxのドライバの依存関係
-    && apt-get install gcc make \
+RUN apt update \
+    && apt install -y sudo curl git vim wget locales \
+    # # LinuxのNPUドライバをビルドするための依存関係
+    # && apt install -y gcc make build-essential git-lfs cmake libudev-dev libboost-all-dev \
+    # # Linuxカーネルを
+    # && apt install -y build-essential flex bison dwarves libssl-dev libelf-dev \
     && groupadd --gid $USER_GID $USER_NAME \
     && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USER_NAME \
     && echo $USER_NAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USER_NAME \
     && chmod 0440 /etc/sudoers.d/$USER_NAME \
     && localedef -f UTF-8 -i ja_JP ja_JP.UTF-8 \
-    && apt-get clean
+    && apt clean
+
+# # コマンドラインでLinuxのNPUをビルド
+# RUN cd linux-npu-driver \
+#     && git submodule update --init --recursive \
+#     && cmake -B build -S . \
+#     && cmake --build build --parallel $(nproc) \
+#     # set the LD_LIBRARY_PATH to lib to make driver visible for loader
+#     && export LD_LIBRARY_PATH=$PWD/build/lib:$LD_LIBRARY_PATH \
+#     # or install the driver in the system
+#     && cmake --install build
 
 
 # Set the locale
