@@ -7,10 +7,19 @@ ARG USER_NAME="vscode" \
 # Install dependencies
 RUN apt update \
     && apt install -y sudo curl git vim wget locales \
-    # # LinuxのNPUドライバをビルドするための依存関係
-    # && apt install -y gcc make build-essential git-lfs cmake libudev-dev libboost-all-dev \
-    # # Linuxカーネルを
-    # && apt install -y build-essential flex bison dwarves libssl-dev libelf-dev \
+    # NPU (https://docs.openvino.ai/2024/get-started/configurations/configurations-intel-npu.html)
+    # LinuxのNPUドライバをビルドするための依存関係
+    # && apt install -y make gcc \
+    # # && apt install -y gcc make build-essential git-lfs cmake libudev-dev libboost-all-dev \
+    # WSL2のLinuxカーネルヘッダーをインストールする前準備 (https://github.com/microsoft/WSL2-Linux-Kernel/tree/linux-msft-wsl-5.15.146.1)
+    # && apt install -y build-essential flex bison dwarves libssl-dev libelf-dev bpfcc-tools dwarves \
+    # && git clone https://github.com/microsoft/WSL2-Linux-Kernel \
+    # && cd WSL2-Linux-Kernel \
+    # && git checkout -b linux-msft-wsl-$(uname -r | cut -d'-' -f1) refs/tags/linux-msft-wsl-$(uname -r | cut -d'-' -f1) \
+    # && export LOCALVERSION= \
+    # && make -j8 KCONFIG_CONFIG=./Microsoft/config-wsl \
+    # && cd - \
+    # ユーザーの設定
     && groupadd --gid $USER_GID $USER_NAME \
     && useradd -s /bin/bash --uid $USER_UID --gid $USER_GID -m $USER_NAME \
     && echo $USER_NAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USER_NAME \
@@ -18,15 +27,20 @@ RUN apt update \
     && localedef -f UTF-8 -i ja_JP ja_JP.UTF-8 \
     && apt clean
 
-# # コマンドラインでLinuxのNPUをビルド
-# RUN cd linux-npu-driver \
-#     && git submodule update --init --recursive \
-#     && cmake -B build -S . \
-#     && cmake --build build --parallel $(nproc) \
-#     # set the LD_LIBRARY_PATH to lib to make driver visible for loader
-#     && export LD_LIBRARY_PATH=$PWD/build/lib:$LD_LIBRARY_PATH \
-#     # or install the driver in the system
-#     && cmake --install build
+# # Linux用NPUドライバをインストール (https://github.com/intel/linux-npu-driver/releases/tag/v1.2.0)
+# RUN dpkg --purge --force-remove-reinstreq intel-driver-compiler-npu intel-fw-npu intel-level-zero-npu level-zero \
+#     && wget https://github.com/intel/linux-npu-driver/releases/download/v1.2.0/intel-driver-compiler-npu_1.2.0.20240404-8553879914_ubuntu22.04_amd64.deb \
+#     && wget https://github.com/intel/linux-npu-driver/releases/download/v1.2.0/intel-fw-npu_1.2.0.20240404-8553879914_ubuntu22.04_amd64.deb \
+#     && wget https://github.com/intel/linux-npu-driver/releases/download/v1.2.0/intel-level-zero-npu_1.2.0.20240404-8553879914_ubuntu22.04_amd64.deb \
+#     && apt update \
+#     && apt install libtbb12 \
+#     && dpkg -i *.deb \
+#     # check if Level Zero is installed
+#     && dpkg -l level-zero \
+#     # download and install package if Level Zero is missing
+#     && wget https://github.com/oneapi-src/level-zero/releases/download/v1.16.1/level-zero_1.16.1+u22.04_amd64.deb \
+#     && dpkg -i level-zero*.deb
+#     # 続きは上記URLの 6. Reboot
 
 
 # Set the locale
