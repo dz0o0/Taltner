@@ -34,7 +34,7 @@ const AudioRecorder = () => {
   };
 
   const stopRecording = async () => {
-    console.log("Stopping recording...");
+    console.log("録音を終了しました。");
     try {
       const [buffer, blob] = await recorder.stop().getMp3();
       const blobURL = URL.createObjectURL(blob);
@@ -51,6 +51,7 @@ const AudioRecorder = () => {
     } catch (e) {
       console.error("Error stopping recording:", e);
     }
+      //apiが帰ってくるのをここに記述
   };
 
   const sendAudioData = (blob) => {
@@ -82,6 +83,8 @@ const AudioRecorder = () => {
     };
   };
 
+  const receiveAudioData = () => {
+  };
   return (
     <div>
       <button onClick={isRecording ? stopRecording : startRecording}>

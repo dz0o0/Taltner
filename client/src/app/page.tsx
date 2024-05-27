@@ -1,4 +1,4 @@
-import AudioRecorder from "../features/post/components/post-new";
+import AudioRecorder from "../features/generateTopic/components/post-new";
 
 export default function Home() {
   return (
