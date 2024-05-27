@@ -10,7 +10,7 @@ const AudioRecorder = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [blobURL, setBlobURL] = useState("");
   const [isBlocked, setIsBlocked] = useState(false);
-  const [stream, setStream] = useState(null); // マイクストリームの状態変数
+  const [stream, setStream] = useState(null);
 
   const startRecording = () => {
     navigator.mediaDevices
@@ -18,7 +18,7 @@ const AudioRecorder = () => {
       .then((stream) => {
         console.log("Permission Granted");
         setIsBlocked(false);
-        setStream(stream); // ストリームを状態に保存
+        setStream(stream);
         recorder
           .start()
           .then(() => {
@@ -42,10 +42,9 @@ const AudioRecorder = () => {
       setIsRecording(false);
       console.log("Recording stopped.");
 
-      // ストリームを停止
       if (stream) {
         stream.getTracks().forEach((track) => track.stop());
-        setStream(null); // ストリームをクリア
+        setStream(null);
       }
 
       sendAudioData(blob);
