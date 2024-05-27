@@ -1,25 +1,10 @@
 "use client";
-//録音開始ボタンを識別
-//録音開始ボタンを押す
-//マイクの許可を確認
-//マイクが許可されていない場合、アラートを表示
-//マイクが許可されている場合、録音を開始
-//録音ボタンを停止ボタンに変更
-//録音データを定期的に取得して送信（タイマーを設定）
-//音声データをAPIに送信
-
-//停止ボタンを押す
-//録音を停止
-//録音データの送信を停止
-//停止ボタンを録音ボタンに変更
-
 // 必要なものをインポート
-// useStateとは・・・Reactのhooksの一つで、関数コンポーネントで状態を管理するためのもの
-// useEffectとは・・・Reactのhooksの一つで、関数コンポーネントで副作用を実行するためのもの
 // mic-recorder-to-mp3ライブラリからMicRecorder(ブラウザで音声を録音するためのライブラリ)をインポート
+// useStateとは・・・Reactのhooksの一つで、関数コンポーネントで状態を管理するためのもの
 import MicRecorder from "mic-recorder-to-mp3";
 import React, { useState } from "react";
-
+// AudioRecorderという関数コンポーネントを定義
 const AudioRecorder = () => {
   const [recorder] = useState(new MicRecorder({ bitRate: 128 }));
   const [isRecording, setIsRecording] = useState(false);
@@ -70,23 +55,32 @@ const AudioRecorder = () => {
   };
 
   const sendAudioData = (blob) => {
-    const formData = new FormData();
-    formData.append("file", blob, "recording.mp3");
-
-    fetch("http://localhost:3001/audio/1", {
-      body: formData,
-      method: "POST",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.success) {
-          console.log("音声データが正しくAPIに送信されました");
-        } else {
-          console.log("音声データの送信に失敗しました");
-        }
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = function () {
+      const base64data = reader.result;
+      const data = {
+        file: base64data,
+      };
+      fetch("http://localhost:3001/audio", {
+        body: JSON.stringify(data),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .catch((error) => console.error("Error:", error));
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            alert("成功しました");
+          } else {
+            alert("失敗しました");
+          }
+        })
+        .catch((error) => {
+          console.error("エラー:", error);
+        });
+    };
   };
 
   return (
