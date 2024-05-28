@@ -29,12 +29,13 @@ export function Tutorial() {
             className="absolute inset-4 flex bg-slate-300"
           >
             {/* スライド取り消しボタン */}
-            <div
+            <button
               onClick={handleClose}
               className="absolute right-0 mt-6 mr-8 text-3xl transition-colors duration-100 hover:text-slate-500"
             >
               <FontAwesomeIcon icon={faCircleXmark} />
-            </div>
+            </button>
+            {/* 次へボタン */}
           </div>
         </div>
       )}
