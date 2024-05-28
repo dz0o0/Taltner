@@ -1,3 +1,5 @@
+import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
 export function Tutorial() {
@@ -24,8 +26,13 @@ export function Tutorial() {
           {/* スライド画面 */}
           <div
             onClick={(event) => event.stopPropagation()}
-            className="m-4 absolute inset-1 flex items-center justify-center bg-slate-300"
-          ></div>
+            className="absolute inset-4 flex bg-slate-300"
+          >
+            {/* スライド取り消しボタン */}
+            <div onClick={handleClose} className="text-3xl ml-auto pt-6 pr-8">
+              <FontAwesomeIcon icon={faCircleXmark} />
+            </div>
+          </div>
         </div>
       )}
     </>
