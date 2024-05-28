@@ -29,7 +29,10 @@ export function Tutorial() {
             className="absolute inset-4 flex bg-slate-300"
           >
             {/* スライド取り消しボタン */}
-            <div onClick={handleClose} className="text-3xl ml-auto pt-6 pr-8">
+            <div
+              onClick={handleClose}
+              className="absolute right-0 mt-6 mr-8 text-3xl transition-colors duration-100 hover:text-slate-500"
+            >
               <FontAwesomeIcon icon={faCircleXmark} />
             </div>
           </div>
