@@ -38,6 +38,7 @@ const AudioRecorder = () => {
     try {
       const [buffer, blob] = await recorder.stop().getMp3();
       const blobURL = URL.createObjectURL(blob);
+      console.log(blobURL);
       setBlobURL(blobURL);
       setIsRecording(false);
       console.log("Recording stopped.");
@@ -62,7 +63,7 @@ const AudioRecorder = () => {
       const data = {
         file: base64data,
       };
-      fetch("http://localhost:3001/audio", {
+      fetch("http://localhost:3001/posts", {
         body: JSON.stringify(data),
         method: "POST",
         headers: {
@@ -70,13 +71,6 @@ const AudioRecorder = () => {
         },
       })
         .then((response) => response.json())
-        .then((data) => {
-          if (data.success) {
-            alert("成功しました");
-          } else {
-            alert("失敗しました");
-          }
-        })
         .catch((error) => {
           console.error("エラー:", error);
         });
