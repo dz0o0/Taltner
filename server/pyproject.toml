@@ -9,7 +9,7 @@ package-mode = false
 
 # アプリケーションに直接関わってくるパッケージ
 [tool.poetry.dependencies]
-python = "3.10.14"
+python = "3.10.11"
 
 # 開発時のみに必要なパッケージ
 [tool.poetry.group.dev.dependencies]
@@ -24,4 +24,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [project]
-requires-python = "3.10.14"
+requires-python = "3.10.11"
