@@ -1,21 +1,46 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 
 interface CarouselProps {
   children: ReactNode[];
 }
 
+// CarouselPropsを受け取り、子要素をスライドショーとして表示するCarouselコンポーネント
 const Carousel = ({ children }: CarouselProps) => {
+  // 現在表示しているスライドのインデックスを管理するためのstate
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % children.length);
-  };
-
-  const prevSlide = () => {
+  // 次のスライドを表示する関数。現在が最後のスライドの場合は何もしない。
+  const nextSlide = useCallback(() => {
     setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? children.length - 1 : prevIndex - 1
+      prevIndex === children.length - 1 ? prevIndex : prevIndex + 1
     );
-  };
+  }, [children.length]);
+
+  // 前のスライドを表示する関数。現在が最初のスライドの場合は何もしない。
+  const prevSlide = useCallback(() => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? prevIndex : prevIndex - 1
+    );
+  }, []);
+
+  // キーボードの矢印キーによるスライドの切り替えを処理するためのuseEffectフック
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "ArrowRight") {
+        nextSlide();
+      } else if (event.key === "ArrowLeft") {
+        prevSlide();
+      }
+    };
+
+    // キーボードイベントのリスナーを追加
+    window.addEventListener("keydown", handleKeyDown);
+
+    // コンポーネントのクリーンアップ時にイベントリスナーを削除
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [nextSlide, prevSlide]);
 
   return (
     <>
@@ -39,14 +64,16 @@ const Carousel = ({ children }: CarouselProps) => {
         {/* 前のスライドに移動するボタン */}
         <button
           onClick={prevSlide}
-          className="-translate-y-1/2 rounded-full bg-gray-800 p-2 text-white"
+          disabled={currentIndex === 0}
+          className={`-translate-y-1/2 rounded-full p-2 text-white ${currentIndex === 0 ? "bg-gray-500" : "bg-gray-800"}`}
         >
           &#8249;
         </button>
         {/* 次のスライドに移動するボタン */}
         <button
           onClick={nextSlide}
-          className="-translate-y-1/2 rounded-full bg-gray-800 p-2 text-white"
+          disabled={currentIndex === children.length - 1}
+          className={`-translate-y-1/2 rounded-full p-2 text-white ${currentIndex === children.length - 1 ? "bg-gray-500" : "bg-gray-800"}`}
         >
           &#8250;
         </button>
