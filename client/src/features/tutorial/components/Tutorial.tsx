@@ -34,24 +34,29 @@ export function Tutorial() {
             {/* スライド取り消しボタン */}
             <button
               onClick={handleClose}
-              className="absolute right-8 top-6 text-3xl transition-colors duration-100 hover:text-slate-500"
+              className="absolute right-8 top-6 text-3xl transition-colors duration-200 hover:text-slate-500"
             >
               <FontAwesomeIcon icon={faCircleXmark} />
             </button>
             {/* スライドショー本体 */}
             <Carousel>
+              {/* スライド１枚目 */}
               <section>
                 <h1 className="text-5xl">Taltnerをはじめよう</h1>
               </section>
+              {/* スライド2枚目 */}
               <section>
                 <h1 className="text-5xl">ボタンをクリックで喋ってみよう</h1>
               </section>
+              {/* スライド3枚目 */}
               <section>
                 <h1 className="text-5xl">ボタンをクリックで送信してみよう</h1>
               </section>
+              {/* スライド4枚目 */}
               <section>
                 <h1 className="text-5xl">話題を選択してみよう</h1>
               </section>
+              {/* スライド5枚目 */}
               <section>
                 <h1 className="text-5xl">音声の入力は許可しているかな？</h1>
               </section>
