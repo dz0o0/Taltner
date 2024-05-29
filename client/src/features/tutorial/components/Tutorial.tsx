@@ -24,7 +24,7 @@ export function Tutorial() {
         // 黒背景
         <div
           onClick={handleClose}
-          className="absolute inset-0 flex items-center justify-center overflow-hidden bg-black opacity-70"
+          className="absolute inset-0 flex items-center justify-center overflow-hidden bg-black bg-opacity-70"
         >
           {/* 黒背景の内側 */}
           <div
