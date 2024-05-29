@@ -29,7 +29,7 @@ export function Tutorial() {
           {/* 黒背景の内側 */}
           <div
             onClick={(event) => event.stopPropagation()}
-            className="absolute inset-4 flex bg-slate-300"
+            className="absolute inset-4 flex bg-slate-100"
           >
             {/* スライド取り消しボタン */}
             <button
