@@ -21,8 +21,6 @@ poetry-plugin-export = "^1.7.1"
 
 
 [tool.poetry.group.stt.dependencies]
-soundfile = "^0.12.1"
-librosa = "^0.10.2.post1"
 ffmpeg-python = "^0.2.0"
 pydub = "^0.25.1"
 
