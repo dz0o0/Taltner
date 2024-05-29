@@ -1,5 +1,6 @@
 import  ReceiveApi  from "../features/generateTopic/components/ReceiveApi";
 import AudioRecorder from "../features/generateTopic/components/AudioRecorder";
+import { Tutorial } from "@/features/tutorial/components/Tutorial";
 
 export default function Home() {
   return (
@@ -10,6 +11,9 @@ export default function Home() {
 
       <div>
         <ReceiveApi />
+      </div>
+      <div className="">
+      <Tutorial />
       </div>
     </main>
   );
