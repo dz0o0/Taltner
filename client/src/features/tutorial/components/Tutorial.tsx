@@ -2,6 +2,8 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
+import Carousel from "@/features/tutorial/components/Carousel";
+
 export function Tutorial() {
   // 状態変数とその更新関数を定義します。初期値はtrueです。
   const [isOpen, setIsOpen] = useState(true);
@@ -37,9 +39,23 @@ export function Tutorial() {
               <FontAwesomeIcon icon={faCircleXmark} />
             </button>
             {/* スライドショー本体 */}
-            {/* スライドショーコントロール */}
-            {/* 次へボタン */}
-            {/* 戻るボタン */}
+            <Carousel>
+              <section>
+                <h1 className="text-5xl">Taltnerをはじめよう</h1>
+              </section>
+              <section>
+                <h1 className="text-5xl">ボタンをクリックで喋ってみよう</h1>
+              </section>
+              <section>
+                <h1 className="text-5xl">ボタンをクリックで送信してみよう</h1>
+              </section>
+              <section>
+                <h1 className="text-5xl">話題を選択してみよう</h1>
+              </section>
+              <section>
+                <h1 className="text-5xl">音声の入力は許可しているかな？</h1>
+              </section>
+            </Carousel>
           </div>
         </div>
       )}
