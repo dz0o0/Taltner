@@ -1,3 +1,5 @@
+import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 
 interface CarouselProps {
@@ -46,7 +48,7 @@ const Carousel = ({ children }: CarouselProps) => {
     <>
       {/* スライドを配置するためのフレックスコンテナ */}
       <div
-        className="m-16 flex flex-row transition-transform duration-500"
+        className="my-16 flex flex-row transition-transform duration-500"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}
       >
         {/* 各子要素（スライド）をマップして表示 */}
@@ -60,22 +62,22 @@ const Carousel = ({ children }: CarouselProps) => {
         ))}
       </div>
       {/* コントロール */}
-      <div className="absolute bottom-6 right-8">
+      <div className="absolute bottom-10 right-12">
         {/* 前のスライドに移動するボタン */}
         <button
           onClick={prevSlide}
           disabled={currentIndex === 0}
-          className={`-translate-y-1/2 rounded-full p-2 text-white ${currentIndex === 0 ? "bg-gray-500" : "bg-gray-800"}`}
+          className={`text-5xl text-white ${currentIndex === 0 ? "text-gray-500" : "text-gray-800"}`}
         >
-          &#8249;
+          <FontAwesomeIcon icon={faCaretLeft} />
         </button>
         {/* 次のスライドに移動するボタン */}
         <button
           onClick={nextSlide}
           disabled={currentIndex === children.length - 1}
-          className={`-translate-y-1/2 rounded-full p-2 text-white ${currentIndex === children.length - 1 ? "bg-gray-500" : "bg-gray-800"}`}
+          className={`ml-4 text-5xl text-white ${currentIndex === children.length - 1 ? "text-gray-500" : "text-gray-800"}`}
         >
-          &#8250;
+          <FontAwesomeIcon icon={faCaretRight} />
         </button>
       </div>
     </>
