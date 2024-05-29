@@ -9,7 +9,6 @@ from pydub import AudioSegment
 def decode_and_resample_audio(
     base64_audio: str, target_frame_rate: int = 16000
 ) -> Tuple[np.ndarray, int]:
-    base64_audio = base64_audio.split(",")[1]
     audio_bytes = base64.b64decode(base64_audio)
     audio = io.BytesIO(audio_bytes)
 

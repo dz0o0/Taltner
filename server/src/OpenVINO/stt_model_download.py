@@ -83,9 +83,10 @@ def get_stt_pipeline() -> Pipeline:
         if device == "NPU"
         else download_and_convert_to_int8()
     )
-    processor = AutoProcessor.from_pretrained(model_id)
     ov_model.to(device)
     ov_model.compile()
+
+    processor = AutoProcessor.from_pretrained(model_id)
 
     # 音声認識のパイプラインの設定
     pipe = pipeline(
@@ -93,12 +94,14 @@ def get_stt_pipeline() -> Pipeline:
         model=ov_model,
         tokenizer=processor.tokenizer,
         feature_extractor=processor.feature_extractor,
-        max_new_tokens=256,
-        chunk_length_s=25,
+        max_new_tokens=256,  # 要変更
+        chunk_length_s=25,  # 要変更
     )
 
+    # 日本語の音声認識のための設定
     pipe.model.config.forced_decoder_ids = pipe.tokenizer.get_decoder_prompt_ids(
-        language="Japanese", task="transcribe"
+        language="Japanese",
+        task="transcribe",  # "translate"(翻訳) or "transcribe"(音声認識)
     )
 
     return pipe
@@ -117,7 +120,13 @@ def transcribe_audio(base64_audio: str, pipe: Pipeline) -> str:
 
 if __name__ == "__main__":
     pipe = get_stt_pipeline()
+
     with open("audio/base64_audio_test.txt", "r") as f:
         base64_audio = f.read()
+
+    # base64のヘッダを削除, 必須の前処理
+    base64_audio = base64_audio.split(",")[1]
+    # 音声認識の実行
     result = transcribe_audio(base64_audio, pipe)
+
     print(result)
