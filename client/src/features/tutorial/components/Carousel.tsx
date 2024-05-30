@@ -55,7 +55,7 @@ const Carousel = ({ children }: CarouselProps) => {
         {children.map((child, index) => (
           <div
             key={index}
-            className="flex size-full shrink-0 items-center justify-center"
+            className="flex size-full shrink-0  justify-center"
           >
             {child}
           </div>
@@ -67,7 +67,7 @@ const Carousel = ({ children }: CarouselProps) => {
         <button
           onClick={prevSlide}
           disabled={currentIndex === 0}
-          className={`text-5xl text-white ${currentIndex === 0 ? "text-gray-500" : "text-gray-800 transition-colors duration-200 hover:text-slate-500"}`}
+          className={`text-5xl text-gray-500 ${currentIndex === 0 ? "text-gray-500" : "text-gray-800 transition-colors duration-200 hover:text-slate-500"}`}
         >
           <FontAwesomeIcon icon={faCaretLeft} />
         </button>
@@ -75,7 +75,7 @@ const Carousel = ({ children }: CarouselProps) => {
         <button
           onClick={nextSlide}
           disabled={currentIndex === children.length - 1}
-          className={`ml-4 text-5xl text-white ${currentIndex === children.length - 1 ? "text-gray-500" : "text-gray-800 transition-colors duration-200 hover:text-slate-500"}`}
+          className={`ml-4 text-5xl text-gray-500 ${currentIndex === children.length - 1 ? "text-gray-500" : "text-gray-800 transition-colors duration-200 hover:text-slate-500"}`}
         >
           <FontAwesomeIcon icon={faCaretRight} />
         </button>
