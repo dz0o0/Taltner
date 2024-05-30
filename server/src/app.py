@@ -24,10 +24,14 @@ app.add_middleware(
 )
 
 
-# リクエストの形式
+# 音声認識リクエストの形式
 class Audio(BaseModel):
-    id: str
     file: str
+
+
+# 話題抽出リクエストの形式
+class Transcription(BaseModel):
+    transcription: str
 
 
 # 会話の履歴
@@ -59,10 +63,10 @@ async def process_audio(base64_audio: Audio) -> dict[str, str]:
 
 # 音声データのSpeech To Textの内容から、話題を抽出する
 @app.post("/topics")
-async def extract_topics(text: str) -> dict[str, list[str]]:
+async def extract_topics(transcription: Transcription) -> dict[str, list[str]]:
     # 会話として保存
     global conversation
-    conversation += "\n" + text
+    conversation += "\n" + transcription.transcription
 
     print("conversation", conversation)
 
