@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Sidebar } from "@/features/main/components/Accordion";
+import { Tutorial } from "@/features/tutorial/components/Tutorial";
 
 export default function Home() {
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function Home() {
 
   return (
     <div className="flex h-screen w-full flex-row bg-progateBaseBG">
-      {/* <Tutorial /> */}
+      <Tutorial />
       {/*
         サイドバー
         width chatGPTのサイドバーが２６０pxで指定していたためそこからの引用
