@@ -22,11 +22,14 @@
     "javascript.preferences.importModuleSpecifier": "non-relative",
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-        "editor.codeActionsOnSave": [
-                "source.addMissingImports",
-            "source.fixAll.eslint"
+    "editor.codeActionsOnSave": [
+        "source.addMissingImports",
+        "source.fixAll.eslint"
     ],
-        "editor.quickSuggestions": {
-     "strings": "on"
-   }
+    "editor.quickSuggestions": {
+        "strings": "on"
+    },
+    "files.associations": {
+        "*.css": "tailwindcss"
+    }
 }
