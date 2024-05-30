@@ -68,7 +68,8 @@ function App() {
       const data = {
         file: base64data,
       };
-      fetch("http://localhost:8080/audio", { // 8080番ポートに変更
+      fetch("http://localhost:8080/audio", {
+        // 8080番ポートに変更
         body: JSON.stringify(data),
         method: "POST",
         headers: {
@@ -91,9 +92,10 @@ function App() {
 
   const extractTopics = (transcription) => {
     const data = {
-      text: transcription,
+      transcription: transcription,
     };
-    fetch("http://localhost:8080/topics", { // 8080番ポートに変更
+    fetch("http://localhost:8080/topics", {
+      // 8080番ポートに変更
       body: JSON.stringify(data),
       method: "POST",
       headers: {
@@ -119,9 +121,7 @@ function App() {
         {isRecording ? "停止" : "録音開始"}
       </button>
       <div>
-        {topics && topics.map((topic, index) => (
-          <p key={index}>{topic}</p>
-        ))}
+        {topics && topics.map((topic, index) => <p key={index}>{topic}</p>)}
       </div>
     </div>
   );
