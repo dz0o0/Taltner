@@ -1,6 +1,7 @@
 "use client";
 
 import { Tutorial } from "@/features/tutorial/components/Tutorial";
+
 // import  ReceiveApi  from "../features/generateTopic/components/ReceiveApi";
 import AudioRecorder from "../features/generateTopic/components/AudioRecorder";
 

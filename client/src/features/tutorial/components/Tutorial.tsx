@@ -24,7 +24,7 @@ export function Tutorial() {
         // 黒背景
         <div
           onClick={handleClose}
-          className="absolute inset-0 flex items-center justify-center overflow-hidden bg-black bg-opacity-70"
+          className="absolute inset-0 flex items-center justify-center overflow-hidden bg-black/70"
         >
           {/* 黒背景の内側 */}
           <div
@@ -43,17 +43,21 @@ export function Tutorial() {
               {/* スライド１枚目 */}
               <section>
                 <div className="">
-                  <h1 className="text-6xl" my-2>Taltnerをはじめよう</h1>
-                  <p className="text-lg text-center">このサイトでは会話の際に自動で話題を提供します。<br />このサイトは初対面の会話をする場合に自動で話題を提供しサポートします。</p>
+                  <h1 className="my-2 text-6xl tracking-tighter">Taltnerをはじめよう</h1>
+                  <p className="my-3 text-center text-lg">
+                    Taltnerは初対面の会話をサポートするために、自動で話題を提供します。<br />
+                    会話がスムーズに進むように、適切な話題を提案します。<br />
+                    気まずい沈黙を避け、楽しい会話をお楽しみください。
+                  </p>
                 </div>
-                <div className="w-96 h-80 m-auto bg-black">
+                <div className="mt-[60px] h-[425px] bg-black">
                   <img className="" src="" alt=""></img>
                 </div>
               </section>
               {/* スライド2枚目 */}
               <section>
                 <h2 className="text-5xl">録音を開始しよう</h2>
-                <p className="text-2xl text-center">録音を開始しよう</p>
+                <p className="text-center text-2xl">録音を開始しよう</p>
               </section>
               {/* スライド3枚目 */}
               <section>
