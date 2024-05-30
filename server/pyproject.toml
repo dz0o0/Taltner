@@ -7,12 +7,13 @@ readme = "README.md"
 # Poetryを依存関係のみに使うため、パッケージモードを無効にする
 package-mode = false
 
-# アプリケーションに直接関わってくるパッケージ
 [tool.poetry.dependencies]
-python = "3.10.14"
+# アプリケーションに直接関わってくるパッケージ
+python = "3.10.11"
+fastapi = "^0.111.0"
 
-# 開発時のみに必要なパッケージ
 [tool.poetry.group.dev.dependencies]
+# 開発時のみに必要なパッケージ
 ruff = "^0.4.3"
 mypy = "^1.10.0"
 pre-commit = "^3.7.0"
@@ -24,4 +25,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [project]
-requires-python = "3.10.14"
+requires-python = "3.10.11"
