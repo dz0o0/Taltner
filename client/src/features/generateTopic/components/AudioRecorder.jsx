@@ -1,16 +1,22 @@
 "use client";
-// 必要なものをインポート
-// mic-recorder-to-mp3ライブラリからMicRecorder(ブラウザで音声を録音するためのライブラリ)をインポート
-// useStateとは・・・Reactのhooksの一つで、関数コンポーネントで状態を管理するためのもの
 import MicRecorder from "mic-recorder-to-mp3";
-import React, { useState } from "react";
-// AudioRecorderという関数コンポーネントを定義
-const AudioRecorder = () => {
+import React, { useState, useEffect } from "react";
+
+// 配列の長さが4になるように調整する関数
+function adjustData(data) {
+  while (data && data.topics && data.topics.length < 4) {
+    data.topics.push("");
+  }
+  return data;
+}
+
+function App() {
   const [recorder] = useState(new MicRecorder({ bitRate: 128 }));
   const [isRecording, setIsRecording] = useState(false);
   const [blobURL, setBlobURL] = useState("");
   const [isBlocked, setIsBlocked] = useState(false);
   const [stream, setStream] = useState(null);
+  const [topics, setTopics] = useState([]);
 
   const startRecording = () => {
     navigator.mediaDevices
@@ -52,7 +58,6 @@ const AudioRecorder = () => {
     } catch (e) {
       console.error("Error stopping recording:", e);
     }
-      //apiが帰ってくるのをここに記述
   };
 
   const sendAudioData = (blob) => {
@@ -63,7 +68,8 @@ const AudioRecorder = () => {
       const data = {
         file: base64data,
       };
-      fetch("http://localhost:3001/posts", {
+      fetch("http://localhost:8080/audio", {
+        // 8080番ポートに変更
         body: JSON.stringify(data),
         method: "POST",
         headers: {
@@ -71,21 +77,54 @@ const AudioRecorder = () => {
         },
       })
         .then((response) => response.json())
+        .then((data) => {
+          if (data && data.transcription) {
+            extractTopics(data.transcription);
+          } else {
+            console.error("Invalid data:", data);
+          }
+        })
         .catch((error) => {
           console.error("エラー:", error);
         });
     };
   };
 
-  const receiveAudioData = () => {
+  const extractTopics = (transcription) => {
+    const data = {
+      transcription: transcription,
+    };
+    fetch("http://localhost:8080/topics", {
+      // 8080番ポートに変更
+      body: JSON.stringify(data),
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && data.topics) {
+          setTopics(adjustData(data).topics);
+        } else {
+          console.error("Invalid data:", data);
+        }
+      })
+      .catch((error) => {
+        console.error("エラー:", error);
+      });
   };
+
   return (
     <div>
       <button onClick={isRecording ? stopRecording : startRecording}>
         {isRecording ? "停止" : "録音開始"}
       </button>
+      <div>
+        {topics && topics.map((topic, index) => <p key={index}>{topic}</p>)}
+      </div>
     </div>
   );
-};
+}
 
-export default AudioRecorder;
+export default App;
