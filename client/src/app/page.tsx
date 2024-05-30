@@ -41,7 +41,7 @@ export default function Home() {
       */}
       <main className="w-full overflow-hidden">
         <div className="mt-32 flex flex-col items-center justify-center">
-          <h1 className="text-5xl font-bold">Taltner</h1>
+          <h1 className="text-5xl font-noto">Taltner</h1>
           <p className="text-2xl">Let&apos; s have a conversation.</p>
         </div>
         <section className="mx-32 my-16 rounded-md bg-white shadow-progate">

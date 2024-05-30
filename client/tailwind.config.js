@@ -5,6 +5,10 @@ module.exports = {
   plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
   theme: {
     extend: {
+      fontFamiy: {
+        noto: ["Noto Sans JP", "sans-serif"],
+        capriola: ["Capriola", "sans-serif"],
+      },
       colors: {
         progateBaseBG: "#f9fbfe", // progate.comで使われているメイン背景色
         progateSidebarBG: "#ffffff", // progate.comで使われているサイドバーの背景色
