@@ -7,17 +7,26 @@ readme = "README.md"
 # Poetryを依存関係のみに使うため、パッケージモードを無効にする
 package-mode = false
 
-# アプリケーションに直接関わってくるパッケージ
 [tool.poetry.dependencies]
+# アプリケーションに直接関わってくるパッケージ
 python = "3.10.11"
+wheel = "^0.43.0"
 
-# 開発時のみに必要なパッケージ
 [tool.poetry.group.dev.dependencies]
+# 開発時のみに必要なパッケージ
 ruff = "^0.4.3"
 mypy = "^1.10.0"
 pre-commit = "^3.7.0"
 poetry = "^1.8.2"
 poetry-plugin-export = "^1.7.1"
+ipykernel = "^6.29.4"
+ipywidgets = "^8.1.2"
+
+
+[tool.poetry.group.llm.dependencies]
+openvino = "^2024.1.0"
+optimum-intel = {git = "https://github.com/huggingface/optimum-intel.git"}
+nncf = {git = "https://github.com/openvinotoolkit/nncf.git"}
 
 
 [tool.poetry.group.stt.dependencies]

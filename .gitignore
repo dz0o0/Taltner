@@ -4,3 +4,4 @@
 
 # pyenv
 .python-version
+**/.env
