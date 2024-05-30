@@ -1,7 +1,8 @@
 "use client";
 import { useEffect } from "react";
+
+import { Button } from "@/components/ui/button";
 import { Sidebar } from "@/features/main/components/Accordion";
-import { Tutorial } from "@/features/tutorial/components/Tutorial";
 
 export default function Home() {
   useEffect(() => {
@@ -24,13 +25,13 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-row w-full h-screen bg-progateBaseBG">
-      <Tutorial />
+    <div className="flex h-screen w-full flex-row bg-progateBaseBG">
+      {/* <Tutorial /> */}
       {/*
         サイドバー
         width chatGPTのサイドバーが２６０pxで指定していたためそこからの引用
       */}
-      <aside className="h-screen w-[260px] border-r-2 border-r-progateSidebarBorder bg-progateSidebarBG p-4 pt-32 text-black overflow-y-scroll ">
+      <aside className="h-screen w-[260px] overflow-y-scroll border-r-2 border-r-progateSidebarBorder bg-progateSidebarBG p-4 pt-32 text-black ">
         <Sidebar />
       </aside>
 
@@ -38,23 +39,27 @@ export default function Home() {
         メイン画面
       */}
       <main className="w-full overflow-hidden">
-        <div className="mt-32 flex flex-col justify-center items-center">
+        <div className="mt-32 flex flex-col items-center justify-center">
           <h1 className="text-5xl font-bold">Taltner</h1>
-          <p className="text-2xl">Let's have a conversation.</p>
+          <p className="text-2xl">Let&apos; s have a conversation.</p>
         </div>
-        <section className="my-16 mx-32">
-          <div className="bg-slate-300 w-full h-full">
-            <div>aaa</div>
+        <section className="mx-32 my-16 rounded-md bg-white shadow-progate">
+          <div className="grid size-full grid-cols-2 gap-24 p-24">
+            <Button variant="default" className="h-24 shadow-progate">
+              <p className="text-base">今日のご飯はなんですか</p>
+            </Button>
+            <Button variant="default" className="h-24 shadow-progate">
+              <p className="text-base">昨日何時に寝ましたか</p>
+            </Button>
+            <Button variant="default" className="h-24 shadow-progate">
+              <p className="text-base">明日の予定はなんですか</p>
+            </Button>
+            <Button variant="default" className="h-24 shadow-progate">
+              <p className="text-base">好きなアーティストは誰ですか</p>
+            </Button>
           </div>
         </section>
       </main>
-      {/* <main className="">
-        <div className="">
-          <h1 className="mt-32 text-5xl font-bold">Taltner</h1>
-          <p className="text-2xl">Let's have a conversation.</p>
-        </div>
-        <section className="size-full mb-32 mt-16 mx-64 bg-black"></section>
-      </main> */}
     </div>
   );
 }
