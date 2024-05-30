@@ -6,7 +6,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#f9fbfe", // カスタム背景色
+        progateBaseBG: "#f9fbfe", // progate.comで使われているメイン背景色
+        progateSidebarBG: "#ffffff", // progate.comで使われているサイドバーの背景色
+        progateSidebarBorder: "#ececec", // progate.comで使われているサイドバーのborderRight色
         border: "#dee2e6", // カスタム境界線色
         foreground: "#333333",
       },
