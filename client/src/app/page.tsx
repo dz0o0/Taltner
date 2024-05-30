@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Sidebar } from "@/features/main/components/Accordion";
+import { Tutorial } from "@/features/tutorial/components/Tutorial";
 
 export default function Home() {
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function Home() {
 
   return (
     <div className="flex h-screen w-full flex-row bg-progateBaseBG">
-      {/* <Tutorial /> */}
+      <Tutorial />
       {/*
         サイドバー
         width chatGPTのサイドバーが２６０pxで指定していたためそこからの引用
@@ -40,7 +41,7 @@ export default function Home() {
       */}
       <main className="w-full overflow-hidden">
         <div className="mt-32 flex flex-col items-center justify-center">
-          <h1 className="text-5xl font-bold">Taltner</h1>
+          <h1 className="text-5xl font-noto">Taltner</h1>
           <p className="text-2xl">Let&apos; s have a conversation.</p>
         </div>
         <section className="mx-32 my-16 rounded-md bg-white shadow-progate">

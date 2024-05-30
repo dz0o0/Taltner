@@ -43,10 +43,14 @@ export function Tutorial() {
               {/* スライド１枚目 */}
               <section>
                 <div className="">
-                  <h1 className="my-2 text-6xl tracking-tighter">Taltnerをはじめよう</h1>
+                  <h1 className="my-2 text-6xl tracking-tighter">
+                    Taltnerをはじめよう
+                  </h1>
                   <p className="my-3 text-center text-lg">
-                    Taltnerは初対面の会話をサポートするために、自動で話題を提供します。<br />
-                    会話がスムーズに進むように、適切な話題を提案します。<br />
+                    Taltnerは初対面の会話をサポートするために、自動で話題を提供します。
+                    <br />
+                    会話がスムーズに進むように、適切な話題を提案します。
+                    <br />
                     気まずい沈黙を避け、楽しい会話をお楽しみください。
                   </p>
                 </div>
