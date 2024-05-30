@@ -55,7 +55,7 @@ const Carousel = ({ children }: CarouselProps) => {
         {children.map((child, index) => (
           <div
             key={index}
-            className="flex size-full shrink-0 items-center justify-center"
+            className="flex size-full shrink-0  justify-center"
           >
             {child}
           </div>

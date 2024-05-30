@@ -1,7 +1,7 @@
 "use client";
 
 import { Tutorial } from "@/features/tutorial/components/Tutorial";
-import  ReceiveApi  from "../features/generateTopic/components/ReceiveApi";
+// import  ReceiveApi  from "../features/generateTopic/components/ReceiveApi";
 import AudioRecorder from "../features/generateTopic/components/AudioRecorder";
 
 export default function Home() {
@@ -9,7 +9,7 @@ export default function Home() {
     <div className="">
       <Tutorial />
       <AudioRecorder />
-      <ReceiveApi />
+      {/* <ReceiveApi /> */}
     </div>
   );
 }

@@ -29,7 +29,7 @@ export function Tutorial() {
           {/* 黒背景の内側 */}
           <div
             onClick={(event) => event.stopPropagation()}
-            className="absolute inset-4 flex bg-slate-100"
+            className="absolute inset-4 flex bg-slate-100 text-center"
           >
             {/* スライド取り消しボタン */}
             <button
@@ -42,11 +42,18 @@ export function Tutorial() {
             <Carousel>
               {/* スライド１枚目 */}
               <section>
-                <h1 className="text-5xl">Taltnerをはじめよう</h1>
+                <div className="">
+                  <h1 className="text-6xl" my-2>Taltnerをはじめよう</h1>
+                  <p className="text-lg text-center">このサイトでは会話の際に自動で話題を提供します。<br />このサイトは初対面の会話をする場合に自動で話題を提供しサポートします。</p>
+                </div>
+                <div className="w-96 h-80 m-auto bg-black">
+                  <img className="" src="" alt=""></img>
+                </div>
               </section>
               {/* スライド2枚目 */}
               <section>
-                <h1 className="text-5xl">ボタンをクリックで喋ってみよう</h1>
+                <h2 className="text-5xl">録音を開始しよう</h2>
+                <p className="text-2xl text-center">録音を開始しよう</p>
               </section>
               {/* スライド3枚目 */}
               <section>
