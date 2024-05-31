@@ -9,13 +9,7 @@ export default function Home() {
     <>
       <div className="flex h-screen w-full flex-row overflow-hidden">
         <Tutorial />
-        <div className="shrink-0 overflow-x-hidden bg-progateSidebarBG">
-          <div className="h-full w-[260px]">
-            <aside className="size-full flex-1 overflow-auto border-r-2 border-r-progateSidebarBorder bg-progateSidebarBG p-4">
-              <Sidebar />
-            </aside>
-          </div>
-        </div>
+        <Sidebar />
         <div className="flex h-full max-w-full flex-1 flex-col overflow-hidden">
           <main className="size-full flex-1 overflow-auto bg-progateBaseBG">
             {/* アプリ名とキャッチコピー */}
@@ -25,7 +19,16 @@ export default function Home() {
                 Let&apos; s have a conversation.
               </p>
             </div>
-            <section className="m-32 flex rounded-md bg-progateSidebarBG  shadow-progate">
+            {/* マイクボタン */}
+            <div className="flex justify-center my-12">
+              <Button
+                variant="destructive"
+                className="w-32 h-12 shadow-progate"
+              >
+                はじめる
+              </Button>
+            </div>
+            <section className="mx-32 my-26 flex rounded-md bg-progateSidebarBG  shadow-progate">
               <div className="grid size-full grid-cols-2 gap-16 p-24">
                 <Button variant="default" className="h-24 shadow-progate">
                   <p className="font-noto text-base">今日のご飯はなんですか</p>
