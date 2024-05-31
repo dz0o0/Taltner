@@ -119,6 +119,7 @@ function App() {
 
   return (
     <div>
+      {/* ボタン */}
       <div className="mb-8 mt-4 flex justify-center">
         <Button
           onClick={isRecording ? stopRecording : startRecording}
@@ -128,8 +129,22 @@ function App() {
           {isRecording ? "話題を生成する" : "はじめる"}
         </Button>
       </div>
-      <div>
-        {topics && topics.map((topic, index) => <p key={index}>{topic}</p>)}
+      {/* 話題が生成されたテキスト */}
+      <div className="px-32 pb-32 pt-12">
+        <section className="flex rounded-md bg-progateSidebarBG  shadow-progate">
+          <div className="grid size-full grid-cols-2 gap-16 p-24">
+            {topics &&
+              topics.map((topic, index) => (
+                <Button
+                  variant="default"
+                  className="h-24 shadow-progate"
+                  key={index}
+                >
+                  <p className="font-noto text-base">{topic}</p>
+                </Button>
+              ))}
+          </div>
+        </section>
       </div>
     </div>
   );

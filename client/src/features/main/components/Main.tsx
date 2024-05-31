@@ -1,7 +1,7 @@
 import React from "react";
 
-import { TalkChoice } from "./TalkChoice";
 import AudioRecorder from "@/features/generateTopic/components/AudioRecorder";
+import { TalkChoice } from "@/features/generateTopic/components/TalkChoice";
 
 export function Main() {
   return (
@@ -15,7 +15,6 @@ export function Main() {
         {/* マイクボタン */}
         <AudioRecorder />
         {/* 話題選択コンポーネント */}
-        <TalkChoice />
       </main>
     </div>
   );
