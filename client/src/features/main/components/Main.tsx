@@ -1,7 +1,6 @@
 import React from "react";
 
-import { Button } from "@/components/ui/button";
-
+import { MicInputButton } from "./MicInputButton";
 import { TalkChoice } from "./TalkChoice";
 
 export function Main() {
@@ -16,11 +15,8 @@ export function Main() {
           </p>
         </div>
         {/* マイクボタン */}
-        <div className="my-12 flex justify-center">
-          <Button variant="destructive" className="h-12 w-32 shadow-progate">
-            はじめる
-          </Button>
-        </div>
+        <MicInputButton />
+        {/* 話題選択コンポーネント */}
         <TalkChoice />
       </main>
     </div>
