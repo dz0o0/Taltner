@@ -29,7 +29,7 @@ export function Tutorial() {
           {/* 黒背景の内側 */}
           <div
             onClick={(event) => event.stopPropagation()}
-            className="absolute inset-4 flex bg-slate-100 text-center"
+            className="absolute inset-4 flex bg-orange-100 text-center"
           >
             {/* スライド取り消しボタン */}
             <button
@@ -73,7 +73,7 @@ export function Tutorial() {
               {/* スライド3枚目 */}
               <section>
                 <div className="">
-                  <h1 className="my-2 text-6xl tracking-tighter font-noto">話題を表示してみよう</h1>
+                  <h1 className="my-2 text-6xl tracking-tighter font-noto ">話題を表示してみよう</h1>
                   <p className="my-3 text-center text-lg font-noto">
                     「話題を表示」を押すと、録音した会話を元に話題が表示されます。<br />
                     適当な話題ではなく、会話に沿った話題が表示されるため<br />
