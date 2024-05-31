@@ -1,6 +1,8 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import MicRecorder from "mic-recorder-to-mp3";
 import React, { useState, useEffect } from "react";
+// import { start } from "repl";
 
 // 配列の長さが4になるように調整する関数
 function adjustData(data) {
@@ -117,9 +119,15 @@ function App() {
 
   return (
     <div>
-      <button onClick={isRecording ? stopRecording : startRecording}>
-        {isRecording ? "停止" : "録音開始"}
-      </button>
+      <div className="mb-8 mt-4 flex justify-center">
+        <Button
+          onClick={isRecording ? stopRecording : startRecording}
+          variant="destructive"
+          className="h-12 w-32"
+        >
+          {isRecording ? "話題を生成する" : "はじめる"}
+        </Button>
+      </div>
       <div>
         {topics && topics.map((topic, index) => <p key={index}>{topic}</p>)}
       </div>

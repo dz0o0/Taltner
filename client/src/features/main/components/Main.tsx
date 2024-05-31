@@ -1,7 +1,7 @@
 import React from "react";
 
-import { MicInputButton } from "./MicInputButton";
 import { TalkChoice } from "./TalkChoice";
+import AudioRecorder from "@/features/generateTopic/components/AudioRecorder";
 
 export function Main() {
   return (
@@ -13,7 +13,7 @@ export function Main() {
           <p className="font-noto text-2xl">Let&apos; s have a conversation.</p>
         </div>
         {/* マイクボタン */}
-        <MicInputButton />
+        <AudioRecorder />
         {/* 話題選択コンポーネント */}
         <TalkChoice />
       </main>
