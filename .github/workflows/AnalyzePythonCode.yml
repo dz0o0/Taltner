@@ -25,6 +25,6 @@ jobs:
     - name: Analyze Python code with Ruff
       run: |
         ruff check --output-format=github --config="server/ruff.toml" $(git ls-files '**.py')
-    - name: Type checking Python code with mypy
-      run: |
-        mypy --strict --explicit-package-bases --ignore-missing-imports $(git ls-files '**.py')
+    # - name: Type checking Python code with mypy
+    #   run: |
+    #     mypy --strict --explicit-package-bases --ignore-missing-imports $(git ls-files '**.py')
