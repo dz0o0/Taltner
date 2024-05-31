@@ -5,7 +5,7 @@ module.exports = {
   plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
   theme: {
     extend: {
-      fontFamiy: {
+      fontFamily: {
         noto: ["Noto Sans JP", "sans-serif"],
         capriola: ["Capriola", "sans-serif"],
       },
@@ -70,10 +70,19 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "fade-out": {
+          "0%": {
+            opacity: 1,
+          },
+          "100%": {
+            opacity: 0,
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-out": "fade-out 0.2s ease-out",
       },
     },
   },

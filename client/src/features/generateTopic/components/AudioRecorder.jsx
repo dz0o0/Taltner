@@ -1,6 +1,8 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import MicRecorder from "mic-recorder-to-mp3";
 import React, { useState, useEffect } from "react";
+// import { start } from "repl";
 
 // 配列の長さが4になるように調整する関数
 function adjustData(data) {
@@ -16,7 +18,7 @@ function App() {
   const [blobURL, setBlobURL] = useState("");
   const [isBlocked, setIsBlocked] = useState(false);
   const [stream, setStream] = useState(null);
-  const [topics, setTopics] = useState([]);
+  const [topics, setTopics] = useState(["", "", "", ""]);
 
   const startRecording = () => {
     navigator.mediaDevices
@@ -117,11 +119,31 @@ function App() {
 
   return (
     <div>
-      <button onClick={isRecording ? stopRecording : startRecording}>
-        {isRecording ? "停止" : "録音開始"}
-      </button>
-      <div>
-        {topics && topics.map((topic, index) => <p key={index}>{topic}</p>)}
+      {/* ボタン */}
+      <div className="mb-8 mt-4 flex justify-center">
+        <Button
+          onClick={isRecording ? stopRecording : startRecording}
+          variant="destructive"
+          className="h-12 w-32"
+        >
+          {isRecording ? "話題を生成する" : "はじめる"}
+        </Button>
+      </div>
+      {/* 話題が生成されたテキスト */}
+      <div className="px-32 pb-32 pt-12">
+        <section className="flex rounded-md bg-progateSidebarBG  h-[448px] shadow-progate">
+          <div className="grid size-full grid-cols-2 gap-16 p-24">
+            {topics.map((topic, index) => (
+              <Button
+                variant="default"
+                className="h-24 shadow-progate"
+                key={index}
+              >
+                {topic}
+              </Button>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );
