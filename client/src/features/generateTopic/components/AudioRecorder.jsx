@@ -18,7 +18,7 @@ function App() {
   const [blobURL, setBlobURL] = useState("");
   const [isBlocked, setIsBlocked] = useState(false);
   const [stream, setStream] = useState(null);
-  const [topics, setTopics] = useState([]);
+  const [topics, setTopics] = useState(["", "", "", ""]);
 
   const startRecording = () => {
     navigator.mediaDevices
@@ -131,18 +131,17 @@ function App() {
       </div>
       {/* 話題が生成されたテキスト */}
       <div className="px-32 pb-32 pt-12">
-        <section className="flex rounded-md bg-progateSidebarBG  shadow-progate">
+        <section className="flex rounded-md bg-progateSidebarBG  h-[448px] shadow-progate">
           <div className="grid size-full grid-cols-2 gap-16 p-24">
-            {topics &&
-              topics.map((topic, index) => (
-                <Button
-                  variant="default"
-                  className="h-24 shadow-progate"
-                  key={index}
-                >
-                  <p className="font-noto text-base">{topic}</p>
-                </Button>
-              ))}
+            {topics.map((topic, index) => (
+              <Button
+                variant="default"
+                className="h-24 shadow-progate"
+                key={index}
+              >
+                {topic}
+              </Button>
+            ))}
           </div>
         </section>
       </div>
