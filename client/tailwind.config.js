@@ -5,7 +5,7 @@ module.exports = {
   plugins: [require("@tailwindcss/typography"), require("@tailwindcss/forms")],
   theme: {
     extend: {
-      fontFamiy: {
+      fontFamily: {
         noto: ["Noto Sans JP", "sans-serif"],
         capriola: ["Capriola", "sans-serif"],
       },
