@@ -1,21 +1,29 @@
 from datetime import datetime
+import gc
 import logging
 import os
 from pathlib import Path
 from typing import Any, Tuple
 
-from llm_config import LLM_MODELS_CONFIG
+from dotenv import find_dotenv, load_dotenv
+
+# from llm_config import COMPRESSION_CONFIGS, LLM_MODELS_CONFIG
 import nncf
 import openvino as ov
-from optimum.intel.openvino import OVModelForCausalLM
+from OpenVINO.llm_config import COMPRESSION_CONFIGS, LLM_MODELS_CONFIG
+from OpenVINO.prompts.llm_prompt import SYSTEM_PROMPT
+from optimum.intel.openvino import OVModelForCausalLM, OVWeightQuantizationConfig
 from optimum.modeling_base import OptimizedModel
-from prompts.llm_prompt import SYSTEM_PROMPT
+
+# from prompts.llm_prompt import SYSTEM_PROMPT
 from transformers import AutoConfig, AutoTokenizer
+
+# 環境変数をロード
+load_dotenv(find_dotenv())
 
 nncf.set_log_level(logging.ERROR)
 
-# ディレクトリをcwdに変更
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+print("HF_TOKEN: ", os.environ.get("HF_TOKEN", None))
 
 
 def login_huggingface_hub() -> None:
@@ -26,7 +34,7 @@ def login_huggingface_hub() -> None:
         print("Authorization token already provided")
     except OSError:
         try:
-            login(token=os.environ.get("HF_TOKEN"), add_to_git_credential=True)
+            login(token=os.environ.get("HF_TOKEN", None), add_to_git_credential=True)
             print("Authorization token provided")
         except ValueError:
             print("Authorization token not provided")
@@ -43,11 +51,7 @@ model_to_run = "INT8" if device == "NPU" else "INT4"  # NPUならINT8, それ以
 
 # ダウンロードするモデル
 model_id = "microsoft/Phi-3-mini-4k-instruct" if device == "NPU" else "google/gemma-2b-it"
-
-## modelがgemmaの場合は、HuggingFaceのログインが必要
-if model_id == "google/gemma-2b-it":
-    login_huggingface_hub()
-
+# model_id = "microsoft/Phi-3-mini-4k-instruct"
 model_name = model_id.split("/")[-1]
 
 remote_code = LLM_MODELS_CONFIG[model_name]["remote_code"]  # Phi-3はTrue
@@ -58,113 +62,104 @@ fp16_model_dir = model_dir / "FP16"  # float 16bitモデルの保存先
 int8_model_dir = model_dir / "INT8"  # 量子化モデルの保存先(8bit)
 int4_model_dir = model_dir / "INT4"  # 量子化モデルの保存先(4bit)
 
-
-# INT4の設定
-compression_configs = {
-    # ここのパラメータは要調整
-    # "sym":          対称量子化の利用
-    # 'group_size':  グループサイズ  (64, 128が無難？)
-    # 'ratio':       量子化後のパラメータの割合  (0.5~0.8で試す)
-    "gemma-2b-it": {
-        "sym": True,
-        "group_size": 64,
-        "ratio": 0.6,
-    },
-    "default": {
-        "sym": False,
-        "group_size": 128,
-        "ratio": 0.8,
-    },
-}
-
 # optimum-cliでモデルをopenvino形式でダウンロード
-export_command_base = "optimum-cli export openvino --model {} --task text-generation-with-past".format(model_id)
+ov_config = {"PERFORMANCE_HINT": "LATENCY", "NUM_STREAMS": "1", "CACHE_DIR": ""}
 
 
 # ダウンロードするモデルサイズ
-def convert_to_fp16() -> None:
-    global export_command_base
-    export_command = ""
-    # すでに存在する場合はスキップ
+def download_and_convert_to_fp16() -> None:
+    # モデルのダウンロード開始時間
+    start_model_download = datetime.now()
     if (fp16_model_dir / "openvino_model.xml").exists():
         return
-    if remote_code:
-        # Phi-3のみ
-        export_command_base += " --trust-remote-code"
-    export_command = export_command_base + " --weight-format fp16"
-    export_command += " " + str(fp16_model_dir)
-    # モデルのダウンロード開始時間
-    start_model_download = datetime.now()
-    print("export_command:", export_command)
-    os.system(export_command)  # モデルのダウンロード
+    ov_model = OVModelForCausalLM.from_pretrained(
+        model_id,
+        export=True,
+        load_in_8bit=False,
+        device=device,
+        ov_config=ov_config,
+        trust_remote_code=remote_code,
+    )
+    ov_model.half()
+    ov_model.save_pretrained(fp16_model_dir)
+    del ov_model
+    gc.collect()
     # モデルのダウンロード終了時間
     end_model_download = datetime.now() - start_model_download
     print("export done", f"{end_model_download.total_seconds()}s")
 
 
-def convert_to_int8() -> None:
-    global export_command_base
+def download_and_convert_to_int8() -> None:
+    # モデルのダウンロード開始時間
+    start_model_download = datetime.now()
     if (int8_model_dir / "openvino_model.xml").exists():
         return
-    if remote_code:
-        export_command_base += " --trust-remote-code"
-    export_command = export_command_base + " --weight-format int8"
-    export_command += " " + str(int8_model_dir)
-    # モデルのダウンロード開始時間
-    start_model_download = datetime.now()
-    print("export_command:", export_command)
-    os.system(export_command)  # モデルのダウンロード
+    ov_model = OVModelForCausalLM.from_pretrained(
+        model_id,
+        export=True,
+        load_in_8bit=True,
+        device=device,
+        ov_config=ov_config,
+        trust_remote_code=remote_code,
+    )
+    ov_model.save_pretrained(int8_model_dir)
+    del ov_model
+    gc.collect()
     # モデルのダウンロード終了時間
     end_model_download = datetime.now() - start_model_download
     print("export done", f"{end_model_download.total_seconds()}s")
 
 
-def convert_to_int4() -> None:
-    global export_command_base
+def download_and_convert_to_int4() -> None:
+    # モデルのダウンロード開始時間
+    start_model_download = datetime.now()
+    # 量子化の設定
     if (int4_model_dir / "openvino_model.xml").exists():
         return
-    if remote_code:
-        export_command_base += " --trust-remote-code"
-    # 量子化の設定
-    model_compression_params = compression_configs.get(model_name, compression_configs["default"])
-    export_command = export_command_base + " --weight-format int4"
-    int4_compression_args = " --group-size {} --ratio {}".format(
-        model_compression_params["group_size"], model_compression_params["ratio"]
+    model_compression_params = COMPRESSION_CONFIGS.get(model_id, COMPRESSION_CONFIGS["default"])
+    ov_model = OVModelForCausalLM.from_pretrained(
+        model_id,
+        export=True,
+        device=device,
+        ov_config=ov_config,
+        remote_code=remote_code,
+        quantization_config=OVWeightQuantizationConfig(bits=4, **model_compression_params),
     )
-    if model_compression_params["sym"]:
-        int4_compression_args += " --sym"
-    export_command += int4_compression_args + " " + str(int4_model_dir)
-    # モデルのダウンロード開始時間
-    start_model_download = datetime.now()
-    print("export_command:", export_command)
-    os.system(export_command)  # モデルのダウンロード
+    ov_model.save_pretrained(int4_model_dir)
+    del ov_model
+    gc.collect()
     # モデルのダウンロード終了時間
     end_model_download = datetime.now() - start_model_download
     print("export done", f"{end_model_download.total_seconds()}s")
-
-
-def download_model() -> None:
-    print(f"Downloading model {model_name}...")
-    # deviceがNPUならINT8, それ以外はINT4
-    convert_to_int8() if device == "NPU" else convert_to_int4()
-    # convert_to_fp16()
 
 
 def create_ov_model() -> Tuple[Any, OptimizedModel]:
+    # cwdを現在のファイルのディレクトリに変更
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+    # gemma-2b-itの場合はログインが必要
+    if model_name == "gemma-2b-it":
+        print("Login to Hugging Face Hub")
+        login_huggingface_hub()
+
+    # モデルのダウンロード
     if model_to_run == "INT4":  # 4bitモデルを使う場合
+        download_and_convert_to_int4()
         model_dir = int4_model_dir
     elif model_to_run == "INT8":  # 8bitモデルを使う場合
+        download_and_convert_to_int8()
         model_dir = int8_model_dir
     elif model_to_run == "FP16":
+        download_and_convert_to_fp16()
         model_dir = fp16_model_dir  # 16bitモデルを使う場合
     else:
         raise ValueError(f"Unsupported model type: {model_to_run}. Please download the model manually.")
     print(f"Loading model from {model_dir}")
 
-    ov_config = {"PERFORMANCE_HINT": "LATENCY", "NUM_STREAMS": "1", "CACHE_DIR": ""}
+    tok = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
 
-    tok = AutoTokenizer.from_pretrained(model_dir, trust_remote_code=True)
-
+    # コンパイルの開始
+    start = datetime.now()
     # モデルの読み込み
     ov_model = OVModelForCausalLM.from_pretrained(
         model_dir,
@@ -173,6 +168,10 @@ def create_ov_model() -> Tuple[Any, OptimizedModel]:
         config=AutoConfig.from_pretrained(model_dir, trust_remote_code=True),
         trust_remote_code=True,
     )
+
+    stop = datetime.now() - start
+
+    print(f"Model compilation completed.{stop.total_seconds()}s")
 
     return tok, ov_model
 
@@ -257,8 +256,6 @@ def generate_topic(tok: Any, ov_model: OptimizedModel, conversation: str) -> str
 # テスト
 if __name__ == "__main__":
     from datetime import datetime
-
-    download_model()
 
     tok, ov_model = create_ov_model()
 

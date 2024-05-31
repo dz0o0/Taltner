@@ -3,15 +3,12 @@ from datetime import datetime
 import os
 from pathlib import Path
 
-from decode_base64_audio import decode_and_resample_audio
 import openvino as ov
+from OpenVINO.decode_base64_audio import decode_and_resample_audio
 from optimum.intel.openvino import OVModelForSpeechSeq2Seq
 from optimum.modeling_base import OptimizedModel
 from transformers import AutoProcessor, pipeline
 from transformers.pipelines import Pipeline
-
-# cwdを現在のファイルのディレクトリに変更
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 core = ov.Core()
 # デバイスの選択
@@ -52,6 +49,9 @@ def download_and_convert_to_fp16() -> OptimizedModel:
 
 
 def get_stt_pipeline() -> Pipeline:
+    # cwdを現在のファイルのディレクトリに変更
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
     # deviceがNPUならFP16, それ以外はINT8
     # INT8は未対応なので、削除しました。
     ov_model = download_and_convert_to_fp16()
@@ -90,15 +90,15 @@ def transcribe_audio(base64_audio: str, pipe: Pipeline) -> str:
     return result
 
 
-if __name__ == "__main__":
-    pipe = get_stt_pipeline()
+# if __name__ == "__main__":
+#     pipe = get_stt_pipeline()
 
-    with open("audio/base64_audio_test.txt", "r") as f:
-        base64_audio = f.read()
+#     with open("audio/base64_audio_test.txt", "r") as f:
+#         base64_audio = f.read()
 
-    # base64のヘッダを削除, 必須の前処理
-    base64_audio = base64_audio.split(",")[1]
-    # 音声認識の実行
-    result = transcribe_audio(base64_audio, pipe)
+#     # base64のヘッダを削除, 必須の前処理
+#     base64_audio = base64_audio.split(",")[1]
+#     # 音声認識の実行
+#     result = transcribe_audio(base64_audio, pipe)
 
-    print(result)
+#     print(result)
