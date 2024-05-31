@@ -8,9 +8,6 @@ from OpenVINO.stt_model_download import get_stt_pipeline, transcribe_audio
 from pydantic import BaseModel
 import uvicorn
 
-# ディレクトリを移動
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
 app = FastAPI()
 
 # オリジンの設定
@@ -44,6 +41,9 @@ stt_pipe = get_stt_pipeline()
 
 # LLMのモデルを取得
 llm_tok, llm_ov_model = create_ov_model()
+
+# ディレクトリを移動
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
 # base64の音声データを解析し、フロントに返す

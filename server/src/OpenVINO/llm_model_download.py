@@ -23,11 +23,7 @@ load_dotenv(find_dotenv())
 
 nncf.set_log_level(logging.ERROR)
 
-# ディレクトリをcwdに変更
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
-print(find_dotenv())
-print(os.environ.get("HF_TOKEN", None))
+print("HF_TOKEN: ", os.environ.get("HF_TOKEN", None))
 
 
 def login_huggingface_hub() -> None:
@@ -138,10 +134,15 @@ def download_and_convert_to_int4() -> None:
 
 
 def create_ov_model() -> Tuple[Any, OptimizedModel]:
+    # cwdを現在のファイルのディレクトリに変更
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
     # gemma-2b-itの場合はログインが必要
     if model_name == "gemma-2b-it":
         print("Login to Hugging Face Hub")
         login_huggingface_hub()
+
+    # モデルのダウンロード
     if model_to_run == "INT4":  # 4bitモデルを使う場合
         download_and_convert_to_int4()
         model_dir = int4_model_dir

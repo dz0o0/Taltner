@@ -10,9 +10,6 @@ from optimum.modeling_base import OptimizedModel
 from transformers import AutoProcessor, pipeline
 from transformers.pipelines import Pipeline
 
-# cwdを現在のファイルのディレクトリに変更
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
 core = ov.Core()
 # デバイスの選択
 device = "NPU" if "NPU" in core.available_devices else "CPU"
@@ -52,6 +49,9 @@ def download_and_convert_to_fp16() -> OptimizedModel:
 
 
 def get_stt_pipeline() -> Pipeline:
+    # cwdを現在のファイルのディレクトリに変更
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
     # deviceがNPUならFP16, それ以外はINT8
     # INT8は未対応なので、削除しました。
     ov_model = download_and_convert_to_fp16()
