@@ -15,23 +15,38 @@ export function Sidebar() {
           <aside className="size-full flex-1 overflow-auto border-r-2 border-r-progateSidebarBorder bg-progateSidebarBG p-4">
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
-                <AccordionTrigger>Is it accessible?</AccordionTrigger>
+                <AccordionTrigger>話題が表示されません</AccordionTrigger>
                 <AccordionContent>
-                  Yes. It adheres to the WAI-ARIA design pattern.
+                  マイクが許可されていない可能性があるため、各ブラウザのやり方でマイクの入力を許可してください。
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
-                <AccordionTrigger>Is it styled?</AccordionTrigger>
+                <AccordionTrigger>チュートリアルを再度見たい</AccordionTrigger>
                 <AccordionContent>
-                  Yes. It comes with default styles that matches the other
-                  components&apos; aesthetic.
+                  ブラウザのリロードを行なっていただくことで、再度見ることが出来ます。
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
-                <AccordionTrigger>Is it animated?</AccordionTrigger>
+                <AccordionTrigger>相手にばれる心配</AccordionTrigger>
                 <AccordionContent>
-                  Yes. It&apos;s animated by default, but you can disable it if
-                  you prefer.
+                  録音中、相手に通知等が行くことはないため、安心してご利用いただけます。
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-4">
+                <AccordionTrigger>マイクを拒否してしまった</AccordionTrigger>
+                <AccordionContent>
+                  Chromeの場合<br />
+                  右上のメニュー（縦に3つの点）をクリック。<br />
+                  設定を選択。<br />
+                  プライバシーとセキュリティ > サイトの設定を選択。<br />
+                  マイクを選択。<br />
+                  リストから対象のサイトを探し、許可に変更。
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-5">
+                <AccordionTrigger>対面形式でも使いたい</AccordionTrigger>
+                <AccordionContent>
+                  Taltnerはオフラインでもご利用可能でございます。是非ご活用ください！
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
