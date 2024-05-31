@@ -27,3 +27,22 @@ LLM_MODELS_CONFIG: dict[str, dict[str, str | bool]] = {
         "stop_tokens": "<|end|>",
     },
 }
+
+
+# INT4の設定
+COMPRESSION_CONFIGS: dict[str, dict[str, float | bool]] = {
+    # ここのパラメータは要調整
+    # "sym":          対称量子化の利用
+    # 'group_size':  グループサイズ  (64, 128が無難？)
+    # 'ratio':       量子化後のパラメータの割合  (0.5~0.8で試す)
+    "gemma-2b-it": {
+        "sym": True,
+        "group_size": 64,
+        "ratio": 0.6,
+    },
+    "default": {
+        "sym": False,
+        "group_size": 128,
+        "ratio": 0.8,
+    },
+}

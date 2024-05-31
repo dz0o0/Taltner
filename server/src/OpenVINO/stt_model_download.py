@@ -3,8 +3,8 @@ from datetime import datetime
 import os
 from pathlib import Path
 
-from decode_base64_audio import decode_and_resample_audio
 import openvino as ov
+from OpenVINO.decode_base64_audio import decode_and_resample_audio
 from optimum.intel.openvino import OVModelForSpeechSeq2Seq
 from optimum.modeling_base import OptimizedModel
 from transformers import AutoProcessor, pipeline
@@ -90,15 +90,15 @@ def transcribe_audio(base64_audio: str, pipe: Pipeline) -> str:
     return result
 
 
-if __name__ == "__main__":
-    pipe = get_stt_pipeline()
+# if __name__ == "__main__":
+#     pipe = get_stt_pipeline()
 
-    with open("audio/base64_audio_test.txt", "r") as f:
-        base64_audio = f.read()
+#     with open("audio/base64_audio_test.txt", "r") as f:
+#         base64_audio = f.read()
 
-    # base64のヘッダを削除, 必須の前処理
-    base64_audio = base64_audio.split(",")[1]
-    # 音声認識の実行
-    result = transcribe_audio(base64_audio, pipe)
+#     # base64のヘッダを削除, 必須の前処理
+#     base64_audio = base64_audio.split(",")[1]
+#     # 音声認識の実行
+#     result = transcribe_audio(base64_audio, pipe)
 
-    print(result)
+#     print(result)
