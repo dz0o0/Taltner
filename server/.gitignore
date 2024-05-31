@@ -7,6 +7,10 @@ __pycache__/
 .ruff_cache/
 .mypy_cache/
 
+# audio data
+audio/
+!audio/base64_audio_test.txt
+
 # model
 model/*
 !model/.gitkeep
