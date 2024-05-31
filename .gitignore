@@ -2,4 +2,6 @@
 **/.DS_Store
 **/desktop.ini
 
+# pyenv
+.python-version
 **/.env
