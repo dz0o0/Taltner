@@ -24,12 +24,12 @@ export function Tutorial() {
         // 黒背景
         <div
           onClick={handleClose}
-          className="absolute inset-0 flex items-center justify-center overflow-hidden bg-black opacity-70"
+          className="absolute inset-0 flex items-center justify-center overflow-hidden bg-black/70"
         >
           {/* 黒背景の内側 */}
           <div
             onClick={(event) => event.stopPropagation()}
-            className="absolute inset-4 flex bg-slate-100"
+            className="absolute inset-4 flex bg-slate-100 text-center"
           >
             {/* スライド取り消しボタン */}
             <button
@@ -42,11 +42,26 @@ export function Tutorial() {
             <Carousel>
               {/* スライド１枚目 */}
               <section>
-                <h1 className="text-5xl">Taltnerをはじめよう</h1>
+                <div className="">
+                  <h1 className="my-2 text-6xl tracking-tighter">
+                    Taltnerをはじめよう
+                  </h1>
+                  <p className="my-3 text-center text-lg">
+                    Taltnerは初対面の会話をサポートするために、自動で話題を提供します。
+                    <br />
+                    会話がスムーズに進むように、適切な話題を提案します。
+                    <br />
+                    気まずい沈黙を避け、楽しい会話をお楽しみください。
+                  </p>
+                </div>
+                <div className="mt-[60px] h-[425px] bg-black">
+                  <img className="" src="" alt=""></img>
+                </div>
               </section>
               {/* スライド2枚目 */}
               <section>
-                <h1 className="text-5xl">ボタンをクリックで喋ってみよう</h1>
+                <h2 className="text-5xl">録音を開始しよう</h2>
+                <p className="text-center text-2xl">録音を開始しよう</p>
               </section>
               {/* スライド3枚目 */}
               <section>

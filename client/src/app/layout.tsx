@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className="flex min-h-screen bg-border">{children}</body>
+      <body className="min-h-screen overflow-hidden">{children}</body>
     </html>
   );
 }
