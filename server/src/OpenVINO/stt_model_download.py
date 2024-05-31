@@ -26,7 +26,6 @@ model_name = model_id.split("/")[1]
 # モデルを保存するディレクトリ
 model_dir = Path(f"../../model/{model_name}")
 fp16_model_dir = model_dir / "FP16"  # float 16bitモデルの保存先
-int8_model_dir = model_dir / "INT8"  # 量子化モデルの保存先(8bit)
 
 ov_config = {"CACHE_DIR": ""}
 
@@ -45,31 +44,7 @@ def download_and_convert_to_fp16() -> OptimizedModel:
         ov_model.half()
         ov_model.save_pretrained(fp16_model_dir)
     else:
-        ov_model = OVModelForSpeechSeq2Seq.from_pretrained(
-            fp16_model_dir, ov_config=ov_config, compile=False
-        )
-    # ダウンロード完了
-    end_model_download = datetime.now() - start_model_download
-    print("export done", end_model_download.total_seconds())
-    return ov_model
-
-
-def download_and_convert_to_int8() -> OptimizedModel:
-    # ダウンロード開始
-    start_model_download = datetime.now()
-    if not (int8_model_dir / "openvino_encoder_model.xml").exists():
-        ov_model = OVModelForSpeechSeq2Seq.from_pretrained(
-            model_id,
-            ov_config=ov_config,
-            export=True,
-            compile=False,
-            load_in_8bit=True,
-        )
-        ov_model.save_pretrained(int8_model_dir)
-    else:
-        ov_model = OVModelForSpeechSeq2Seq.from_pretrained(
-            int8_model_dir, ov_config=ov_config, compile=False
-        )
+        ov_model = OVModelForSpeechSeq2Seq.from_pretrained(fp16_model_dir, ov_config=ov_config, compile=False)
     # ダウンロード完了
     end_model_download = datetime.now() - start_model_download
     print("export done", end_model_download.total_seconds())
@@ -78,11 +53,7 @@ def download_and_convert_to_int8() -> OptimizedModel:
 
 def get_stt_pipeline() -> Pipeline:
     # deviceがNPUならFP16, それ以外はINT8
-    ov_model = (
-        download_and_convert_to_fp16()
-        if device == "NPU"
-        else download_and_convert_to_int8()
-    )
+    ov_model = download_and_convert_to_fp16()
     ov_model.to(device)
     ov_model.compile()
 
