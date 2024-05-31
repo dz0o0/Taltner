@@ -24,12 +24,12 @@ export function Tutorial() {
         // 黒背景
         <div
           onClick={handleClose}
-          className="absolute inset-0 flex items-center justify-center overflow-hidden bg-black/70"
+          className="absolute inset-0 flex items-center justify-center overflow-hidden bg-black/50"
         >
           {/* 黒背景の内側 */}
           <div
             onClick={(event) => event.stopPropagation()}
-            className="absolute inset-4 flex bg-orange-100 text-center"
+            className="absolute inset-4 flex bg-orange-100 text-center shadow-2xl"
           >
             {/* スライド取り消しボタン */}
             <button
@@ -43,8 +43,10 @@ export function Tutorial() {
               {/* スライド１枚目 */}
               <section>
                 <div className="">
-                  <h1 className="my-2 text-6xl tracking-tighter font-noto"><span className="font-capriola">Taltner</span>をはじめよう</h1>
-                  <p className="my-3 text-center text-lg font-noto">
+                  <h1 className="font-noto my-2 text-6xl tracking-tighter">
+                    <span className="font-capriola">Taltner</span>をはじめよう
+                  </h1>
+                  <p className="font-noto my-3 text-center text-lg">
                     Taltnerは初対面の会話をサポートするために、自動で話題を提供します。
                     <br />
                     会話がスムーズに進むように、適切な話題を提案します。
@@ -59,11 +61,16 @@ export function Tutorial() {
               {/* スライド2枚目 */}
               <section>
                 <div className="">
-                  <h1 className="my-2 text-6xl tracking-tighter font-noto">会話の音声を録画しよう</h1>
-                  <p className="my-3 text-center text-lg font-noto">
-                    会話の音声を録音します。<br />
-                    相手に録音の通知がいくことがないため、<br />
-                    このアプリを使用していることはバレません。<br />
+                  <h1 className="font-noto my-2 text-6xl tracking-tighter">
+                    会話の音声を録画しよう
+                  </h1>
+                  <p className="font-noto my-3 text-center text-lg">
+                    会話の音声を録音します。
+                    <br />
+                    相手に録音の通知がいくことがないため、
+                    <br />
+                    このアプリを使用していることはバレません。
+                    <br />
                   </p>
                 </div>
                 <div className="mt-[60px] h-[425px] bg-black">
@@ -73,10 +80,14 @@ export function Tutorial() {
               {/* スライド3枚目 */}
               <section>
                 <div className="">
-                  <h1 className="my-2 text-6xl tracking-tighter font-noto ">話題を表示してみよう</h1>
-                  <p className="my-3 text-center text-lg font-noto">
-                    「話題を表示」を押すと、録音した会話を元に話題が表示されます。<br />
-                    適当な話題ではなく、会話に沿った話題が表示されるため<br />
+                  <h1 className="font-noto my-2 text-6xl tracking-tighter ">
+                    話題を表示してみよう
+                  </h1>
+                  <p className="font-noto my-3 text-center text-lg">
+                    「話題を表示」を押すと、録音した会話を元に話題が表示されます。
+                    <br />
+                    適当な話題ではなく、会話に沿った話題が表示されるため
+                    <br />
                     話題に困る事なく会話を楽しむことができます。
                   </p>
                 </div>
