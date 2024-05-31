@@ -1,8 +1,12 @@
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
 import React, { useState } from "react";
 
 import Carousel from "@/features/tutorial/components/Carousel";
+import firstSlide from "@/images/1.gif";
+import secondSlide from "@/images/2.gif";
+import thirdSlide from "@/images/3.gif";
 
 export function Tutorial() {
   // 状態変数とその更新関数を定義します。初期値はtrueです。
@@ -54,8 +58,13 @@ export function Tutorial() {
                     気まずい沈黙を避け、楽しい会話をお楽しみください。
                   </p>
                 </div>
-                <div className="mt-[60px] h-[425px] bg-black">
-                  <img className="" src="" alt=""></img>
+                <div className="mt-[60px] h-[425px]">
+                  <Image
+                    src={firstSlide}
+                    width={596.922}
+                    height={425}
+                    alt="Picture of the author"
+                  />
                 </div>
               </section>
               {/* スライド2枚目 */}
@@ -73,8 +82,13 @@ export function Tutorial() {
                     <br />
                   </p>
                 </div>
-                <div className="mt-[60px] h-[425px] bg-black">
-                  <img className="" src="" alt=""></img>
+                <div className="mt-[60px] h-[425px]">
+                  <Image
+                    src={secondSlide}
+                    width={596.922}
+                    height={425}
+                    alt="Picture of the author"
+                  />
                 </div>
               </section>
               {/* スライド3枚目 */}
@@ -91,8 +105,13 @@ export function Tutorial() {
                     話題に困る事なく会話を楽しむことができます。
                   </p>
                 </div>
-                <div className="mt-[60px] h-[425px] bg-black">
-                  <img className="" src="" alt=""></img>
+                <div className="mt-[60px] h-[425px]">
+                  <Image
+                    src={thirdSlide}
+                    width={596.922}
+                    height={425}
+                    alt="Picture of the author"
+                  />
                 </div>
               </section>
             </Carousel>
