@@ -53,6 +53,7 @@ def download_and_convert_to_fp16() -> OptimizedModel:
 
 def get_stt_pipeline() -> Pipeline:
     # deviceがNPUならFP16, それ以外はINT8
+    # INT8は未対応なので、削除しました。
     ov_model = download_and_convert_to_fp16()
     ov_model.to(device)
     ov_model.compile()
