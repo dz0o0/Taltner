@@ -215,14 +215,16 @@ def extract_generated_text(sys_prompt: str, decoded_answer: str) -> str:
                 print('最後の行が"]":  行末に\\n}を追加')
                 append_closure = True
                 closure_text = "\n}"
-            # それ以外は、最後が'\"'なら'\n]\n}'を追加、それ以外は'"\n]\n}'を追加
-            else:
-                print('最後の行が"}"か"]"以外:  行末に\\n]\\n} or "\\n]\\n}を追加')
+            # 最後の行が','なら、最後に'\n]\n}'を追加
+            elif line.strip().endswith(",") or line.strip().endswith('"'):
+                print('最後の行が「,」か「"」:  行末に\\n  ]\\n}を追加')
                 append_closure = True
-                if line.strip().endswith('"'):
-                    closure_text = "\n  ]\n}"
-                else:
-                    closure_text = '"\n  ]\n}'
+                closure_text = "\n  ]\n}"
+            # それ以外は'"\n]\n}'を追加
+            else:
+                print('最後の行がそれ以外:  行末に\\n]\\n} or "\\n]\\n}を追加')
+                append_closure = True
+                closure_text = '"\n  ]\n}'
 
     generated_text = "\n".join(generated_text_ls)
 
