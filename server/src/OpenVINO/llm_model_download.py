@@ -51,7 +51,7 @@ model_to_run = "INT8" if device == "NPU" else "INT4"  # NPUならINT8, それ以
 
 # ダウンロードするモデル
 model_id = "microsoft/Phi-3-mini-4k-instruct" if device == "NPU" else "google/gemma-2b-it"
-# model_id = "microsoft/Phi-3-mini-4k-instruct"
+model_id = "microsoft/Phi-3-mini-4k-instruct"
 model_name = model_id.split("/")[-1]
 
 remote_code = LLM_MODELS_CONFIG[model_name]["remote_code"]  # Phi-3はTrue
@@ -154,7 +154,7 @@ def create_ov_model() -> Tuple[Any, OptimizedModel]:
         model_dir = fp16_model_dir  # 16bitモデルを使う場合
     else:
         raise ValueError(f"Unsupported model type: {model_to_run}. Please download the model manually.")
-    print(f"Loading model from {model_dir}")
+    print(f"Loading LLM model from {model_dir}")
 
     tok = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
 
@@ -171,7 +171,7 @@ def create_ov_model() -> Tuple[Any, OptimizedModel]:
 
     stop = datetime.now() - start
 
-    print(f"Model compilation completed.{stop.total_seconds()}s")
+    print(f"LLM Model compilation completed.{stop.total_seconds()}s")
 
     return tok, ov_model
 
@@ -186,11 +186,11 @@ def extract_generated_text(sys_prompt: str, decoded_answer: str) -> str:
     # システムプロンプトの行数をカウント
     sys_prompt_line_num = len(sys_prompt.strip().split("\n"))
     # システムプロンプト以外の要素を取得
-    lines = decoded_answer.strip().split("\n")[sys_prompt_line_num::]
+    lines = decoded_answer.strip().split("\n")[sys_prompt_line_num - 1 : :]
 
     for idx, line in enumerate(lines):
         # ```jsonが見つかったら取得開始
-        if "```json" in line:
+        if "```json" in line and not capturing:
             capturing = True
             continue
 
@@ -205,7 +205,7 @@ def extract_generated_text(sys_prompt: str, decoded_answer: str) -> str:
 
         # jsonが正常に終了しない場合
         # idxが最後の行かどうかを判定。それまでに```がないなら、下記を実行
-        if idx == len(lines) - 1:
+        if idx == len(lines) - 1 and capturing:
             # 最後の行が'}'
             if "}" in line:
                 print('最後の行が"}":  正常なJSON形式')
@@ -216,8 +216,13 @@ def extract_generated_text(sys_prompt: str, decoded_answer: str) -> str:
                 append_closure = True
                 closure_text = "\n}"
             # 最後の行が','なら、最後に'\n]\n}'を追加
-            elif line.strip().endswith(",") or line.strip().endswith('"'):
-                print('最後の行が「,」か「"」:  行末に\\n  ]\\n}を追加')
+            elif line.strip().endswith(","):
+                print("最後の行が「,」:  行末に\\n  ]\\n}を追加")
+                append_closure = True
+                generated_text_ls[-1] = generated_text_ls[-1][:-1]  # 最後の「,」を削る
+                closure_text = "\n  ]\n}"
+            elif line.strip().endswith('"'):
+                print('最後の行が「"」:  行末に\\n  ]\\n}を追加')
                 append_closure = True
                 closure_text = "\n  ]\n}"
             # それ以外は'"\n]\n}'を追加
@@ -250,34 +255,6 @@ def generate_topic(tok: Any, ov_model: OptimizedModel, conversation: str) -> str
     decoded_answer = tok.batch_decode(answer, skip_special_tokens=True)[0]
 
     # トピックのJSON部分のみを取得
-    json_topics = extract_generated_text(sys_prompt, decoded_answer)
+    json_topics = extract_generated_text(SYSTEM_PROMPT, decoded_answer)
 
     return json_topics
-
-
-# テスト
-if __name__ == "__main__":
-    from datetime import datetime
-
-    tok, ov_model = create_ov_model()
-
-    conversation = """\
-    自分「児島くんの紹介でコンテスト参加してます伊藤です」
-    相手「あ、そうなんですね！！私山下と申します！AIの専攻です！」
-    自分「自分はプログラマー専攻です！確かAI専攻って4年制だっけ？」
-    相手「そうだよ〜。プログラマーは3年制だよね〜。短くてすぐ終わっちゃいそう」
-    自分「そうなんだよね〜。でも3年目にインターンに行って実務的なこと学んで、早く就職しちゃおうと思って。」
-    相手「なるほどね…!」
-    自分「うちの学校正直あんまり友達がいないんだけど、学校周囲のご飯屋に友達とかと行くの？」
-    相手「ぼちぼちかな。俺は一人で食べるのが好きだから、ラーメンとか食べ行くよ」
-    """
-
-    start = datetime.now()
-    print("topics generation start")
-
-    topics = generate_topic(tok, ov_model, conversation)
-
-    stop = datetime.now() - start
-    print("topics generation done", f"{stop.total_seconds()}s")
-
-    print(topics)
