@@ -11,6 +11,7 @@ from transformers import AutoProcessor, pipeline
 from transformers.pipelines import Pipeline
 
 core = ov.Core()
+
 # デバイスの選択
 device = "NPU" if "NPU" in core.available_devices else "CPU"
 
@@ -44,7 +45,7 @@ def download_and_convert_to_fp16() -> OptimizedModel:
         ov_model = OVModelForSpeechSeq2Seq.from_pretrained(fp16_model_dir, ov_config=ov_config, compile=False)
     # ダウンロード完了
     end_model_download = datetime.now() - start_model_download
-    print("export done", end_model_download.total_seconds())
+    print("STT export done", end_model_download.total_seconds())
     return ov_model
 
 
@@ -88,17 +89,3 @@ def transcribe_audio(base64_audio: str, pipe: Pipeline) -> str:
     print("transcribing end")
 
     return result
-
-
-# if __name__ == "__main__":
-#     pipe = get_stt_pipeline()
-
-#     with open("audio/base64_audio_test.txt", "r") as f:
-#         base64_audio = f.read()
-
-#     # base64のヘッダを削除, 必須の前処理
-#     base64_audio = base64_audio.split(",")[1]
-#     # 音声認識の実行
-#     result = transcribe_audio(base64_audio, pipe)
-
-#     print(result)
