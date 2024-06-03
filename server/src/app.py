@@ -96,6 +96,9 @@ async def extract_topics(transcription: Transcription) -> dict[str, list[str]]:
 
     # 処理した結果をJSONに変換し、返す
     json_topics: dict[str, list[str]] = json.loads(topics)
+
+    print(json_topics)
+
     return json_topics
 
 
